@@ -1,0 +1,10 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.options-container {
+    background-color: #eee;
+    border-radius: 5px;
+    padding-top: 20px;
+}
