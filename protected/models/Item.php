@@ -6,6 +6,7 @@ class Item extends CActiveRecord {
         return parent::model($className);
     }
 
+    /*get table name*/
     public function tableName() {
         return 'item';
     }
