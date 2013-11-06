@@ -3,7 +3,9 @@
 
 class Property extends CActiveRecord{
     
-    //$value_type can be 'text', 'date', 'int' or 'double'
+    /* $value_type can be 'text', 'date', 'int' or 'double'
+     * 
+     */
     public static function add($item_id, $name, $value_type, $value) {
         $property = new Property;
         
@@ -56,7 +58,9 @@ class Property extends CActiveRecord{
     }
     
     
-    //$value_type can be 'text', 'date', 'int' or 'double'
+    /* $value_type can be 'text', 'date', 'int' or 'double'
+     * 
+     */
     public function updateValue($value_type, $value) {
         $this->textvalue = null;
         $this->datevalue = null;

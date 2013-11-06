@@ -21,6 +21,28 @@ class SiteController extends Controller
 		);
 	}
 
+        
+
+        public function actionAddItem()
+        {
+            $model = new ItemForm();
+            
+            if(isset($_POST['ItemForm']))
+            {
+                $model->attributes=$_POST['ItemForm'];
+                if($model->validate())
+                {
+                    $model->saveItem();
+
+                    Yii::app()->user->setFlash('add_item','Item saved.');
+                    $this->refresh();
+                }
+            }
+                
+            $this->render('add_item',array('model'=>$model));
+	}
+        
+        
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
