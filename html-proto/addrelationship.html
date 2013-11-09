@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <title>Add relationship</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="For adding new 'depends on'-relationships">
+        <meta name="author" content="Sanna Räty">
+
+        <!-- CSS-styles -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+        </style>
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <!-- Main header -->
+            <div class="hero-unit">
+                <h1 class="text-center">CMDB</h1>
+            </div>
+
+            <!-- Adding relationships -->
+            <div class="row">
+                <div class="span12">
+                    <h2>Add relationship to: testipalvelin</h2>
+                    <br/>
+                    <h3>Item testipalvelin depends on: </h3>
+                </div>
+            </div>
+
+            <!-- Dropdown menu for different item types -->
+            <div class="row">
+                <div class="span6">
+                    <select id="inputType">
+                        <option>Kaikki</option>
+                        <option>Käyttöjärjestelmä</option>
+                        <option>Palvelin</option>
+                        <option>Sovellus</option>
+                        <option>Työasema</option>
+                        <option>Tulostin</option>
+                    </select>
+                </div>
+                <div class="span6">
+                    <form class="navbar-search pull-right">
+                        <input type="text" class="search-query" placeholder="Search">
+                    </form>
+                </div>
+            </div>
+
+            <!-- List of items in the CMDB -->
+            <div class="row">
+                <div class="span12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th> </th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><label class="checkbox"><input type="checkbox"></label></td>
+                                <td>1</td>
+                                <td>Palvelin1</td>
+                                <td>Palvelin</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td><label class="checkbox"><input type="checkbox"></label></td>
+                                <td>2</td>
+                                <td>Palvelin2</td>
+                                <td>Palvelin</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td><label class="checkbox"><input type="checkbox"></label></td>
+                                <td>3</td>
+                                <td>Windows 7</td>
+                                <td>Käyttöjärjestelmä</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td><label class="checkbox"><input type="checkbox"></label></td>
+                                <td>4</td>
+                                <td>archlinux</td>
+                                <td>Käyttöjärjestelmä</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn">Add relationship</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Author -->
+            <footer>
+                <p>&copy; ITikka 2013</p>
+            </footer>
+
+        </div>
+    </body>
+</html>
