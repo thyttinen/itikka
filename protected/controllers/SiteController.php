@@ -22,7 +22,9 @@ class SiteController extends Controller
 	}
 
         
-
+        /**
+        * Displays the item adding page with add_item.php and ItemForm
+        */
         public function actionAddItem()
         {
             $model = new ItemForm();

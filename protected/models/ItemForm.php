@@ -2,8 +2,9 @@
 
 /**
  * Description of AddItemForm
+ * The class storing the information received from the actual html form in add_item.php
  *
- * $type is in serial id form
+ * $type is in serial id form, not as a string
  */
 class ItemForm extends CFormModel {
     
@@ -11,18 +12,20 @@ class ItemForm extends CFormModel {
     public $type;
     
     
-    
+    /* Form labels for attributes differing from the ones above, e.g. "Item Name" instead of "Name" */
     public function attributeLabels() {
         
     }
     
+    /* Rules for form input */
     public function rules() {
         return array(
-			// username and password are required
+            
 			array('name, type', 'required')
 		);
     }
     
+    /* Returns all available types in the database as an array with id and name pairings */
     public function getAvailableTypes() {
         $types = Type::getAll();
         $data = array();
@@ -31,14 +34,12 @@ class ItemForm extends CFormModel {
             $data[$type->id] = $type->type_name;
         }
         
-        
         return $data;
     }
     
+    /* Saves the item upon submitting the form */
     public function saveItem() {
-        
         Item::add($this->name, $this->type);
-        
     }
     
 }

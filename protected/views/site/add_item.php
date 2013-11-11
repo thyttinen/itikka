@@ -12,6 +12,7 @@ $this->breadcrumbs=array(
 
 <h1> Add Item </h1>
 
+<!-- Display a message for the user when the add item function succeeds -->
 <?php if(Yii::app()->user->hasFlash('add_item')): ?>
 
 <div class="flash-success">
