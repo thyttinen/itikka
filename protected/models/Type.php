@@ -13,9 +13,9 @@ class Type extends CActiveRecord {
 
     
     /* Saves a record with these attributes into the database */
-    public static function add($type_name) {
+    public static function add($name) {
         $type = new Type;
-        $type->type_name = $type_name;
+        $type->name = $name;
         $type->save();
         
         return $type;
@@ -27,8 +27,8 @@ class Type extends CActiveRecord {
         return $types;
     }
     
-    public static function getByName($type_name) {
-        $types = Type::model()->findAllByAttributes(array('type_name'=>$type_name));
+    public static function getByName($name) {
+        $types = Type::model()->findAllByAttributes(array('name'=>$name));
         return $types;
     }
     
@@ -56,7 +56,7 @@ class Type extends CActiveRecord {
     
     
     public function tableName() {
-        return 'type';
+        return 'itikka.type';
     }
     
     

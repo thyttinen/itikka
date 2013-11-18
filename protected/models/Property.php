@@ -68,7 +68,7 @@ class Property extends CActiveRecord{
     }
     
     public function tableName() {
-        return 'property';
+        return 'itikka.property';
     }
     
     

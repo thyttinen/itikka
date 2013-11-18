@@ -45,7 +45,7 @@
                ),
                 array(
                    'name' => 'type',
-                   'value' => '$data->type->type_name'
+                   'value' => '$data->type->name'
                )
             ),
         ));

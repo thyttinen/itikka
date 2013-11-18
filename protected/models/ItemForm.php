@@ -31,7 +31,7 @@ class ItemForm extends CFormModel {
         $data = array();
         
         foreach ($types as $type) {
-            $data[$type->id] = $type->type_name;
+            $data[$type->id] = $type->name;
         }
         
         return $data;

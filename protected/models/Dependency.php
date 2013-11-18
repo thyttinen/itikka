@@ -62,7 +62,7 @@ class Dependency extends CActiveRecord {
     }
     
     public function tableName() {
-        return 'dependencies';
+        return 'itikka.dependency';
     }
 }
 
