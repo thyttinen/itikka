@@ -45,10 +45,6 @@
 
         <div class="container" id="page" style="margin-top:60px;">
 
-            <div class="hero-unit">
-                <h1 class="text-center"><?php echo Yii::app()->name ?></h1>
-            </div>
-
             <?php if (isset($this->breadcrumbs)): ?>
                 <?php
                 $this->widget('zii.widgets.CBreadcrumbs', array(
@@ -56,6 +52,10 @@
                 ));
                 ?>
             <?php endif ?>
+
+            <div class="hero-unit">
+                <h1 class="text-center"><?php echo Yii::app()->name ?></h1>
+            </div>
 
             <?php echo $content; ?>
 

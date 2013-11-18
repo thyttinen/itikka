@@ -45,8 +45,8 @@ class Item extends CActiveRecord {
      */
     public function relations() {
         return array(
-            'item_dependencies_on' => array(self::HAS_MANY, 'dependencies', 'item_id', 'joinType' => 'INNER JOIN'),
-            'item_dependencies_to' => array(self::HAS_MANY, 'dependencies', 'depends_on', 'joinType' => 'INNER JOIN'),
+            'item_dependencies_on' => array(self::HAS_MANY, 'Dependency', 'item_id', 'joinType' => 'INNER JOIN'),
+            'item_dependencies_to' => array(self::HAS_MANY, 'Dependency', 'depends_on', 'joinType' => 'INNER JOIN'),
             'type' => array(self::BELONGS_TO, 'Type', 'type_id'),
             'properties' => array(self::HAS_MANY, 'Property', 'item_id'),
             'item_depends_on' => array(self::HAS_MANY, 'Item', array('depends_on' => 'id'),
@@ -68,7 +68,7 @@ class Item extends CActiveRecord {
      */
     public function search() {
         $criteria = new CDbCriteria;
-
+        
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
             'sort' => array(

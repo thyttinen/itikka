@@ -41,40 +41,15 @@
                ),
                array(
                    'name' => 'name',
-                   'value' => '$data->name'
+                   'type'=>'raw',
+                   'value' => 'CHtml::link($data->name,array("viewitem","item_id"=>$data->id))'
                ),
                 array(
-                   'name' => 'type',
+                   'name' => 'type name',
                    'value' => '$data->type->name'
                )
             ),
         ));
         ?>
-    </div>
-</div>
-
-<hr/>
-
-<!-- Tabs: info, relationships, graphics, history -->
-<div class="tabbable">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
-        <li><a href="#relationships" data-toggle="tab">Relationships</a></li>
-        <li><a href="#graphics" data-toggle="tab">Graphics</a></li>
-        <li><a href="#history" data-toggle="tab">History</a></li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="info">
-            <p>Here goes the info.</p>
-        </div>
-        <div class="tab-pane" id="relationships">
-            <p>Here goes the relationships.</p>
-        </div>
-        <div class="tab-pane" id="graphics">
-            <p>Here goes the graphics.</p>
-        </div>
-        <div class="tab-pane" id="history">
-            <p>Here goes the history.</p>
-        </div>
     </div>
 </div>
