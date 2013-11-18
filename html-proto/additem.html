@@ -1,150 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+  <head>
 
-        <meta charset="utf-8">
-        <title>Add item</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="For adding new items to the CMDB">
-        <meta name="author" content="Sanna Räty">
+    <meta charset="utf-8">
+    <title>Add item</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="For adding new items to the CMDB">
+    <meta name="author" content="Sanna Räty">
 
-        <!-- CSS-styles -->
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <style type="text/css">
-        </style>
-        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- CSS-styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
-    </head>
+  </head>
 
-    <body>
+  <body>
 
-        <div class="container">
+    <div class="container">
 
-            <!-- Main header -->
-            <div class="hero-unit">
-                <h1 class="text-center">CMDB</h1>
+      <!-- Main header -->
+	  <div class="hero-unit">
+	    <h1 class="text-center">CMDB</h1>
+      </div>
+
+      <!-- Form for adding new items -->
+      <div class="row">
+        <div class="span6">
+		  <h2>Add item</h2>
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label" for="inputType">Type:</label>
+              <div class="controls">
+                <select id="inputType">
+				  <option> </option>
+				  <option>Palvelin</option>
+				  <option>Käyttöjärjestelmä</option>
+				  <option>Työasema</option>
+				  <option>Tulostin</option>
+				  <option>Sovellus</option>
+				</select>
+              </div>
             </div>
-
-            <!-- Form for adding new items -->
-            <div class="row">
-                <div class="span6">
-                    <h2>Add item</h2>
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="inputType">Type:</label>
-                            <div class="controls">
-                                <select id="inputType">
-                                    <option> </option>
-                                    <option>Palvelin</option>
-                                    <option>Käyttöjärjestelmä</option>
-                                    <option>Työasema</option>
-                                    <option>Tulostin</option>
-                                    <option>Sovellus</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="control-group">
-                            <label class="control-label" for="inputName">Name:</label>
-                            <div class="controls">
-                                <input type="text" id="inputName">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputDescription">Description:</label>
-                            <div class="controls">
-                                <textarea rows="3" id="inputDescription"></textarea>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputAdministrator">Administrator:</label>
-                            <div class="controls">
-                                <select id="inputAdministrator">
-                                    <option> </option>
-                                    <option>Matti Meikäläinen</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Added by:</label>
-                            <div class="controls">
-                                <input type="text" placeholder="Sanna Räty" disabled>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Time:</label>
-                            <div class="controls">
-                                <input type="text" placeholder="7.11.2013 21:30:00" disabled>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <button type="submit" class="btn">Add</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Relationships -->
-                <div class="span6">
-                    <h2>Relationships</h2>
-                    <div class="row">
-                        <div class="span6">
-                            <a href="addrelationship.html" class="btn">Add relationship</a>
-                            <form class="navbar-search pull-right">
-                                <input type="text" class="search-query" placeholder="Search">
-                            </form>
-                        </div>
-                    </div>  
-
-                    <!-- List of current relationships -->
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Relationship</th>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Depends_on</td>
-                                <td>1</td>
-                                <td>Palvelin1</td>
-                                <td>Palvelin</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+			
+			<hr>
+			
+            <div class="control-group">
+              <label class="control-label" for="inputName">Name:</label>
+              <div class="controls">
+                <input type="text" id="inputName">
+              </div>
             </div>
+            <div class="control-group">
+              <label class="control-label" for="inputDescription">Description:</label>
+              <div class="controls">
+                <textarea rows="3" id="inputDescription"></textarea>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="inputAdministrator">Administrator:</label>
+              <div class="controls">
+                <select id="inputAdministrator">
+				  <option> </option>
+				  <option>Matti Meikäläinen</option>
+				</select>
+              </div>
+            </div>
+			<div class="control-group">
+              <label class="control-label">Added by:</label>
+              <div class="controls">
+                <input type="text" placeholder="Sanna Räty" disabled>
+              </div>
+            </div>
+			<div class="control-group">
+              <label class="control-label">Time:</label>
+              <div class="controls">
+                <input type="text" placeholder="7.11.2013 21:30:00" disabled>
+              </div>
+            </div>
+            <div class="control-group">
+			  <div class="controls">
+				<button type="submit" class="btn">Add</button>
+			  </div>
+			</div>
+		  </form>
+        </div>
+		
+		<!-- Relationships -->
+        <div class="span6">
+          <h2>Relationships</h2>
+		  <div class="row">
+			<div class="span6">
+			  <a href="addrelationship.html" class="btn">Add relationship</a>
+			  <button class="btn" type="button">Delete</button>
+			  <form class="navbar-search pull-right">
+			    <input type="text" class="search-query" placeholder="Search">
+			  </form>
+			</div>
+		  </div>  
+		  
+		  <!-- List of current relationships -->
+            <table class="table table-striped">
+              <thead>
+                <tr>
+				  <th> </th>
+                  <th>Relationship</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+				  <td><label class="checkbox"><input type="checkbox"></label></td>
+                  <td>Depends_on</td>
+                  <td>1</td>
+                  <td>Palvelin1</td>
+                  <td>Palvelin</td>
+                </tr>
+              </tbody>
+            </table>
+       </div>
+      </div>
 
-            <hr>
+      <hr>
 
-            <!-- Author -->
-            <footer>
-                <p>&copy; ITikka 2013</p>
-            </footer>
+	  <!-- Author -->
+      <footer>
+        <p>&copy; ITikka 2013</p>
+      </footer>
 
-        </div> 
+    </div> 
 
-        <!-- Javascript-elements
-        ================================================== -->
-        <script src="../assets/js/jquery.js"></script>
-        <script src="../assets/js/bootstrap-transition.js"></script>
-        <script src="../assets/js/bootstrap-alert.js"></script>
-        <script src="../assets/js/bootstrap-modal.js"></script>
-        <script src="../assets/js/bootstrap-dropdown.js"></script>
-        <script src="../assets/js/bootstrap-scrollspy.js"></script>
-        <script src="../assets/js/bootstrap-tab.js"></script>
-        <script src="../assets/js/bootstrap-tooltip.js"></script>
-        <script src="../assets/js/bootstrap-popover.js"></script>
-        <script src="../assets/js/bootstrap-button.js"></script>
-        <script src="../assets/js/bootstrap-collapse.js"></script>
-        <script src="../assets/js/bootstrap-carousel.js"></script>
-        <script src="../assets/js/bootstrap-typeahead.js"></script>
+    <!-- Javascript-elements
+    ================================================== -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
 
-    </body>
+  </body>
 </html>
