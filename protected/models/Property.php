@@ -76,17 +76,17 @@ class Property extends CActiveRecord{
      * 
      */
     public function updateValue($value_type, $value) {
-        $this->textvalue = null;
-        $this->datevalue = null;
-        $this->intvalue = null;
-        $this->doublevalue = null;
+        $this->value_text = null;
+        $this->value_date = null;
+        $this->value_int = null;
+        $this->value_double = null;
         
         $correct = true;
         switch ($value_type) {
-            case 'text': $this->textvalue = $value; break;
-            case 'date': $this->datevalue = $value; break;
-            case 'int': $this->intvalue = $value; break;
-            case 'double': $this->doublevalue = $value; break;
+            case 'text': $this->value_text = $value; break;
+            case 'date': $this->value_date = $value; break;
+            case 'int': $this->value_int = $value; break;
+            case 'double': $this->value_double = $value; break;
             default: $correct = false;
         }
         
