@@ -9,8 +9,9 @@
 
 <div class="row">
     <div class="span6">
-        <!-- Buttons: Add, delete -->
-        <?php echo CHtml::link('Add item ..', array('additem'), array('class' => 'btn')); ?>
+        <!-- Buttons: Add, edit, delete -->
+        <?php echo CHtml::link('Add item', array('additem'), array('class' => 'btn')); ?>
+        <button disabled="disabled" class="btn" type="button">Edit selected</button>
         <button disabled="disabled" class="btn" type="button">Delete selected</button>
     </div>
     <!-- Searchbar -->
@@ -44,7 +45,7 @@
                    'type'=>'raw',
                    'value' => 'CHtml::link($data->name,array("viewitem","item_id"=>$data->id))'
                ),
-                array(
+               array(
                    'name' => 'type name',
                    'value' => '$data->type->name'
                )
