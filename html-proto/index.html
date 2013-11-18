@@ -1,126 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>ITikka</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
+  <head>
 
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="css/additional.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="#">ITikka</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active"><a href="#">Items</a></li>
-                            <li><a href="#types">Types</a></li>
-                        </ul>
-                        <form class="navbar-form pull-right">
-                            <input class="span2" type="text" placeholder="Email">
-                            <input class="span2" type="password" placeholder="Password">
-                            <button type="submit" class="btn">Sign in</button>
-                        </form>
-                    </div><!--/.nav-collapse -->
-                </div>
-            </div>
+    <meta charset="utf-8">
+    <title>CMDB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Index - list of all the items in the CMDB">
+    <meta name="author" content="Sanna Räty">
+
+    <!-- CSS-styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+	  body {
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Main header -->
+	  <div class="hero-unit">
+	    <h1 class="text-center">CMDB</h1>
+      </div>
+	  
+	  <div class="row">
+	    <div class="span6">
+		  <!-- Dropdown menu for different item types -->
+		  <select id="inputType">
+			<option>Kaikki</option>
+			<option>Käyttöjärjestelmä</option>
+			<option>Palvelin</option>
+			<option>Sovellus</option>
+			<option>Työasema</option>
+			<option>Tulostin</option>
+		  </select>
+       </div>
+      </div>
+	  
+	  <div class="row">
+	    <div class="span6">
+		  <!-- Buttons: Add, edit, delete -->
+		  <a href="additem.html" class="btn">Add</a>
+		  <a href="edititem.html" class="btn">Edit</a>
+		  <button class="btn" type="button">Delete</button>
+		</div>
+		<!-- Searchbar -->
+	    <div class="span6">
+		  <form class="navbar-search pull-right">
+		    <input type="text" class="search-query" placeholder="Search">
+	      </form>
         </div>
+	  </div>
+	  
+	  <!-- List of items in the CMDB -->
+	  <div class="row">
+	    <div class="span12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th> </th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><label class="checkbox"><input type="checkbox"></label></td>
+                <td>1</td>
+                <td>Palvelin1</td>
+                <td>Palvelin</td>
+              </tr>
+            </tbody>
+			<tbody>
+              <tr>
+                <td><label class="checkbox"><input type="checkbox"></label></td>
+                <td>2</td>
+                <td>Palvelin2</td>
+                <td>Palvelin</td>
+              </tr>
+            </tbody>
+		    <tbody>
+              <tr>
+                <td><label class="checkbox"><input type="checkbox"></label></td>
+                <td>3</td>
+                <td>Windows 7</td>
+                <td>Käyttöjärjestelmä</td>
+              </tr>
+            </tbody>
+			<tbody>
+              <tr>
+                <td><label class="checkbox"><input type="checkbox"></label></td>
+                <td>4</td>
+                <td>archlinux</td>
+                <td>Käyttöjärjestelmä</td>
+              </tr>
+            </tbody>
+			<tbody>
+              <tr>
+                <td><label class="checkbox"><input type="checkbox"></label></td>
+                <td>5</td>
+                <td><a href="viewitem.html" class="text">testipalvelin</a></td>
+                <td>Palvelin</td>
+              </tr>
+            </tbody>
+          </table>			
+		</div>
+	  </div>
+	  
+      <hr/>
 
-        <div class="container">
+	  <!-- Author -->
+      <footer>
+        <p>&copy; ITikka 2013</p>
+      </footer>
 
-            <div class="options-container row">
-                <div class="span12">
-                    <form>
-                        <div class="row">
-                            <span class="span4">
-                                <select>
-                                    <option selected="selected">All types</option>
-                                    <option>Type 1</option>
-                                </select>
-                            </span>
-                            <span class="offset4 span4">
-                                <span class="form-inline">
-                                    Search by 
-                                    <select class="input-small">
-                                        <option selected="selected">Name</option>
-                                        <option>Other</option>
-                                    </select>
-                                    <input class="input-medium" type="text" placeholder="Search .."/>
-                                </span>
-                            </span>
-                        </div>
-                        <div class="row">
-                            <span class="span4">
-                                <button class="btn">Add</button>
-                                <button class="btn">Edit</button>
-                                <button class="btn btn-danger">Remove</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
-                        <hr>
+    </div> 
 
-            <div class="row">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Etc</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                            <td>test</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <!-- Javascript-elements
+    ================================================== -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
 
-            <hr>
-
-            <footer>
-                <p>ITikka Team</p>
-            </footer>
-
-        </div>
-    </body>
-</html>
+  </body>
+</html> 
