@@ -15,8 +15,9 @@ class PropertyTemplate extends CActiveRecord{
     
     /* 
      * Saves a record with these attributes into the database 
-     * $value_type can be 'text', 'date', 'int' or 'double'
-     * 
+     * $value_type can be on of the property consts 
+     * ValueTypeText, ValueTypeDate, ValueTypeInt or ValueTypeDouble
+     * Property::ValueTypeText for example
      */
     public static function add($type_id, $name, $value_type, $value_required, $list_existing_values) {
         $propertyTemplate = new PropertyTemplate;

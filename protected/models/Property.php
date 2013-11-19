@@ -12,10 +12,19 @@
 
 class Property extends CActiveRecord{
     
+    /* Constants for value type */
+    const ValueTypeText = 'text';
+    const ValueTypeDate = 'date';
+    const ValueTypeInt = 'int';
+    const ValueTypeDouble = 'double';
+    
+    
+    
     /* 
      * Saves a record with these attributes into the database 
-     * $value_type can be 'text', 'date', 'int' or 'double'
-     * 
+     * $value_type can be on of the property consts 
+     * ValueTypeText, ValueTypeDate, ValueTypeInt or ValueTypeDouble
+     * Property::ValueTypeText for example
      */
     public static function add($item_id, $name, $value_type, $value) {
         $property = new Property;
@@ -72,8 +81,9 @@ class Property extends CActiveRecord{
     }
     
     
-    /* $value_type can be 'text', 'date', 'int' or 'double'
-     * 
+    /* $value_type can be on of the property consts 
+     * ValueTypeText, ValueTypeDate, ValueTypeInt or ValueTypeDouble
+     * Property::ValueTypeText for example
      */
     public function updateValue($value_type, $value) {
         $this->value_text = null;
@@ -83,10 +93,10 @@ class Property extends CActiveRecord{
         
         $correct = true;
         switch ($value_type) {
-            case 'text': $this->value_text = $value; break;
-            case 'date': $this->value_date = $value; break;
-            case 'int': $this->value_int = $value; break;
-            case 'double': $this->value_double = $value; break;
+            case Property::ValueTypeText: $this->value_text = $value; break;
+            case Property::ValueTypeDate: $this->value_date = $value; break;
+            case Property::ValueTypeInt: $this->value_int = $value; break;
+            case Property::ValueTypeDouble: $this->value_double = $value; break;
             default: $correct = false;
         }
         
