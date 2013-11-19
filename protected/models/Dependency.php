@@ -53,6 +53,23 @@ class Dependency extends CActiveRecord {
             'dependence'=>array(self::BELONGS_TO, 'item', 'depends_on')
         );
     }
+    
+    /*
+     * Return data provider to be used by table views.
+     * Restrict fetched data to item_id of this instance
+     */
+    public function search() {
+        $criteria = new CDbCriteria;
+        
+        $criteria->compare('item_id', $this->item_id, false);
+
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 5
+            ),
+        ));
+    }
    
     /* Removes the record with these attributes from the database */
     public static function remove($item_id, $depends_on) {

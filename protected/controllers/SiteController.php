@@ -55,6 +55,18 @@ class SiteController extends Controller {
 
         $this->render('add_item', array('model' => $model));
     }
+    
+    /**
+     * Displays the item view page with add_item.php
+     * Fetches Item to display by it's id
+     */
+    public function actionViewItem() {
+        $item = null;
+        if (isset($_GET['item_id'])) {
+            $item = Item::model()->findByPk($_GET['item_id']);
+        }
+        $this->render('view_item', array('model' => $item));
+    }
 
     /**
      * This is the default 'index' action that is invoked
