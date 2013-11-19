@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>Add type</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="For adding new types to the CMDB">
+    <meta name="author" content="Sanna Räty">
+
+    <!-- CSS-styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+	  body {
+        padding-bottom: 40px;
+      }	
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Main header -->
+	  <div class="hero-unit">
+	    <h1 class="text-center">CMDB</h1>
+      </div>
+
+      <!-- Form for adding new items -->
+      <div class="row">
+        <div class="span12">
+		  <h2>Add type</h2>
+		  <br/>
+          <form class="form-inline">
+            <label class="control-label" for="inputTypeName">Type name:</label>
+            <input type="text" id="inputTypeName" value="testipalvelin"">
+		  </form>
+			
+			<hr>
+			
+			<h3>Properties:</h3>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name:</th>
+                  <th>Type:</th>
+                  <th>List of values:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="inputPropertyName" value="nimi"></td>
+                  <td><select>
+					  <option>merkkijono</option>
+					  <option>kokonaisluku</option>
+					  <option>desimaaliluku</option>
+					  <option>päivämäärä</option>
+					  </select>
+				  </td>
+				  <td><label class="checkbox"><input type="checkbox" id="listValues"></label></td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr>
+                  <td><input type="text" id="inputPropertyName"></td>
+                  <td><select>
+					  <option> </option>
+					  <option>merkkijono</option>
+					  <option>kokonaisluku</option>
+					  <option>desimaaliluku</option>
+					  <option>päivämäärä</option>
+					  </select>
+				  </td>
+				  <td><label class="checkbox"><input type="checkbox" id="listValues"></label></td>
+                </tr>
+              </tbody>
+            </table>
+			
+			<button class="btn" type="button">+</button>
+			
+			<br/>
+			<br/>
+			<br/>
+			
+			<button class="btn" type="button">Add type</button>
+		  
+        </div>
+	  </div>
+		
+
+      <hr>
+
+	  <!-- Author -->
+      <footer>
+        <p>&copy; ITikka 2013</p>
+      </footer>
+
+    </div> 
+
+    <!-- Javascript-elements
+    ================================================== -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
