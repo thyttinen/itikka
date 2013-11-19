@@ -43,14 +43,16 @@ class SiteController extends Controller {
     public function actionAddItem() {
         
         // Get type id from GET, the page should reload when type is changed above
-        // default is 0
-        $type_id = 0;
+        // default is 1
+        $type_id = 1;
         if (isset($_GET['type'])) {
             $type_id = $_GET['type'];
         }
         
         $model = new ItemForm();
         $templates = PropertyTemplate::getByType($type_id);
+        
+        $properties = array();
         
         foreach ($templates as $template) {
             $temp = new Property;
