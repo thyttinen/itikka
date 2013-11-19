@@ -23,7 +23,7 @@ class Type extends CActiveRecord {
     
     
     public static function getAll() {
-        $types = Type::model()->findAll();
+        $types = Type::model()->findAll(array('order' => 'name'));
         return $types;
     }
     

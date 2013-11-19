@@ -43,8 +43,9 @@ class SiteController extends Controller {
     public function actionAddItem() {
         
         // Get type id from GET, the page should reload when type is changed above
-        // default is 1
-        $type_id = 1;
+        // default is first (by name). Note: should be done more efficiently
+        $types = Type::getAll();
+        $type_id = $types[0]->id;
         if (isset($_GET['type'])) {
             $type_id = $_GET['type'];
         }
