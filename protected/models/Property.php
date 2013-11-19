@@ -91,6 +91,7 @@ class Property extends CActiveRecord{
         $this->value_int = null;
         $this->value_double = null;
         
+        
         $correct = true;
         switch ($value_type) {
             case Property::ValueTypeText: $this->value_text = $value; break;
@@ -99,6 +100,7 @@ class Property extends CActiveRecord{
             case Property::ValueTypeDouble: $this->value_double = $value; break;
             default: $correct = false;
         }
+        
         
         if ($correct) {
             $this->save();

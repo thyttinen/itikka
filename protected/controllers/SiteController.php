@@ -41,19 +41,48 @@ class SiteController extends Controller {
      * Displays the item adding page with add_item.php and ItemForm
      */
     public function actionAddItem() {
+        
+        // Get type id from GET, the page should reload when type is changed above
+        // default is 0
+        $type_id = 0;
+        if (isset($_GET['type'])) {
+            $type_id = $_GET['type'];
+        }
+        
         $model = new ItemForm();
+        $templates = PropertyTemplate::getByType($type_id);
+        
+        foreach ($templates as $template) {
+            $temp = new Property;
+            $temp->name = $template->name;
+            $properties[] = $temp;
+        }
+        
 
-        if (isset($_POST['ItemForm'])) {
+        if (isset($_POST['ItemForm']) and isset($_POST['Property'])) {
+            $valid=true;
+            foreach($properties as $i=>$property)
+            {
+                if(isset($_POST['Property'][$i])) {
+                    $property->attributes=$_POST['Property'][$i];
+                    $property->value_text=$_POST['Property'][$i]['value_text'];
+                }
+                $valid=$property->validate() && $valid;
+            }
+            
             $model->attributes = $_POST['ItemForm'];
-            if ($model->validate()) {
+            if ($model->validate() && $valid) {
+                
                 $model->saveItem();
+                $model->saveProperties($properties);
 
                 Yii::app()->user->setFlash('add_item', 'Item saved.');
                 $this->refresh();
             }
         }
+        
 
-        $this->render('add_item', array('model' => $model));
+        $this->render('add_item', array('model' => $model, 'properties' => $properties, 'templates' => $templates));
     }
     
     /**
