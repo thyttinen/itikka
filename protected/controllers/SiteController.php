@@ -77,7 +77,7 @@ class SiteController extends Controller {
             if ($model->validate() && $valid) {
                 
                 $model->saveItem();
-                $model->saveProperties($properties);
+                $model->saveProperties($properties, $templates);
 
                 Yii::app()->user->setFlash('add_item', 'Item saved.');
                 $this->refresh();

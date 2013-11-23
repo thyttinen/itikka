@@ -45,10 +45,11 @@ class ItemForm extends CFormModel {
     
     
     /* Saves the received properties for this item */
-    public function saveProperties($properties) {
-        foreach($properties as $i => $property) {
+    public function saveProperties($properties, $templates) {
+        
+        foreach ($properties as $i => $property) {
             $item = Item::getByName($this->name);
-            Property::add($item[0]->id, $property->name, Property::ValueTypeText, $property->value_text);
+            Property::add($item[0]->id, $property->name, $templates[$i]->value_type, $property->value_text);
         }
     }
     
