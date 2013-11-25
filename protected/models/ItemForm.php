@@ -11,18 +11,38 @@ class ItemForm extends CFormModel {
     public $name;
     public $type;
     
+    public $type_id;
+    
+    
+    /* Constructor, saves type_id at the beginning of a page-load for later use */
+    public function __construct() {
+        
+        // Get type id from GET, the page should reload when type is changed above
+        // default is first (by name). Note: should be done more efficiently
+        $types = Type::getAll();
+        $this->type_id = $types[0]->id;
+        if (isset($_GET['type'])) {
+            $this->type_id = $_GET['type'];
+        }
+    }
+    
+    
     
     /* Form labels for attributes differing from the ones above, e.g. "Item Name" instead of "Name" */
     public function attributeLabels() {
         
     }
     
-    /* Rules for form input */
+    
+    
+    /* Rules for form input 
+     */
     public function rules() {
-        return array(
-            
-			array('name, type', 'required')
-		);
+        
+        $rules = array();
+        $rules[] = array('name, type', 'required');
+        
+        return $rules;
     }
     
     /* Returns all available types in the database as an array with id and name pairings */
@@ -48,8 +68,11 @@ class ItemForm extends CFormModel {
     public function saveProperties($properties, $templates) {
         
         foreach ($properties as $i => $property) {
-            $item = Item::getByName($this->name);
-            Property::add($item[0]->id, $property->name, $templates[$i]->value_type, $property->value_text);
+            
+            if ($property->value_text != '') {
+                $item = Item::getByName($this->name);
+                Property::add($item[0]->id, $property->name, $templates[$i]->value_type, $property->value_text);
+            }
         }
     }
     

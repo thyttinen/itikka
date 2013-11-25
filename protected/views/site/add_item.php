@@ -33,16 +33,7 @@ $this->breadcrumbs = array(
         ?>
         
         
-         <?php 
-        
-        // Get type id from GET, the page should reload when type is changed above
-        // default is 0
-        $type_id = 0;
-        if (isset($_GET['type'])) {
-            $type_id = $_GET['type'];
-        }
-    
-        ?>
+        <?php $type_id = $model->type_id; // ItemForm saves the type_id upon construction ?>
         
         <h2>Add item</h2>
         <div class="control-group">
@@ -64,8 +55,9 @@ $this->breadcrumbs = array(
         <!-- Properties  -->
         
         <?php 
-        /* properties and templates come from SiteController
-         * 
+        /* $properties and $templates come from SiteController
+         * the properties are collected through tabular input aka batch mode
+         * all values are collected through value text for now and later saved to their proper row in ItemForm->saveProperties
          */
         
         

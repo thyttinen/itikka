@@ -42,15 +42,13 @@ class SiteController extends Controller {
      */
     public function actionAddItem() {
         
-        // Get type id from GET, the page should reload when type is changed above
-        // default is first (by name). Note: should be done more efficiently
-        $types = Type::getAll();
-        $type_id = $types[0]->id;
-        if (isset($_GET['type'])) {
-            $type_id = $_GET['type'];
-        }
+        
         
         $model = new ItemForm();
+        $type_id = $model->type_id;
+        
+        // Get the PropertyTemplates for the properties of this type
+        // then create valueless Properties based on them
         $templates = PropertyTemplate::getByType($type_id);
         
         $properties = array();
@@ -62,8 +60,11 @@ class SiteController extends Controller {
         }
         
 
+        // Handle received form
         if (isset($_POST['ItemForm']) and isset($_POST['Property'])) {
             $valid=true;
+            
+            // Check property values; uses text_value as a temporary holder of all types of values until saving for simplicity
             foreach($properties as $i=>$property)
             {
                 if(isset($_POST['Property'][$i])) {
@@ -74,6 +75,9 @@ class SiteController extends Controller {
             }
             
             $model->attributes = $_POST['ItemForm'];
+            
+            // Save the Item and Properties; 
+            // implementation must use $model->saveProperties
             if ($model->validate() && $valid) {
                 
                 $model->saveItem();
