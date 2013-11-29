@@ -1,6 +1,7 @@
 <?php
 /* @var $this SiteController */
 /* @var $model ItemForm */
+/* @var $properties PropertyForm */
 /* @var $form CActiveForm  */
 
 $this->pageTitle = Yii::app()->name . ' - Add Item';
@@ -55,18 +56,18 @@ $this->breadcrumbs = array(
         <!-- Properties  -->
         
         <?php 
-        /* $properties and $templates come from SiteController
+        /* $properties come from SiteController
          * the properties are collected through tabular input aka batch mode
-         * all values are collected through value text for now and later saved to their proper row in ItemForm->saveProperties
+         * 
          */
         
         
         foreach ($properties as $i=>$property) {
             echo '<div class="control-group">';
 
-            echo $form->labelEx($model, $templates[$i]->name, array('class' => 'control-label'));
+            echo $form->labelEx($model, $property->name, array('class' => 'control-label'));
             echo '<div class="controls">';
-            echo $form->textField($property, "[$i]value_text");
+            echo $form->textField($property, "[$i]value");
             echo $form->error($model, $property->name); 
 
             echo '</div></div>';

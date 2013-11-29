@@ -38,7 +38,7 @@ class SiteController extends Controller {
     }
 
     /**
-     * Displays the item adding page with add_item.php and ItemForm
+     * Displays the item adding page with add_item.php and ItemForm / PropertyForm
      */
     public function actionAddItem() {
         
@@ -48,40 +48,43 @@ class SiteController extends Controller {
         $type_id = $model->type_id;
         
         // Get the PropertyTemplates for the properties of this type
-        // then create valueless Properties based on them
+        // then create PropertyForm models for each property specified by the template
         $templates = PropertyTemplate::getByType($type_id);
         
         $properties = array();
         
         foreach ($templates as $template) {
-            $temp = new Property;
+            $temp = new PropertyForm;
             $temp->name = $template->name;
+            $temp->property_template = $template;
             $properties[] = $temp;
         }
         
 
         // Handle received form
-        if (isset($_POST['ItemForm']) and isset($_POST['Property'])) {
+        if (isset($_POST['ItemForm']) and isset($_POST['PropertyForm'])) { 
             $valid=true;
             
-            // Check property values; uses text_value as a temporary holder of all types of values until saving for simplicity
+            // Get and validate property values
             foreach($properties as $i=>$property)
             {
-                if(isset($_POST['Property'][$i])) {
-                    $property->attributes=$_POST['Property'][$i];
-                    $property->value_text=$_POST['Property'][$i]['value_text'];
+                if(isset($_POST['PropertyForm'][$i])) {
+                    $property->attributes=$_POST['PropertyForm'][$i];
+                    //$property->value=$_POST['Property'][$i]['value'];
                 }
                 $valid=$property->validate() && $valid;
             }
             
             $model->attributes = $_POST['ItemForm'];
             
-            // Save the Item and Properties; 
-            // implementation must use $model->saveProperties
+            // Save the Item and Properties
             if ($model->validate() && $valid) {
                 
-                $model->saveItem();
-                $model->saveProperties($properties, $templates);
+                $item = $model->saveItem();
+                
+                foreach ($properties as $property) {
+                    $property->saveProperty($item);
+                }
 
                 Yii::app()->user->setFlash('add_item', 'Item saved.');
                 $this->refresh();
@@ -89,7 +92,7 @@ class SiteController extends Controller {
         }
         
 
-        $this->render('add_item', array('model' => $model, 'properties' => $properties, 'templates' => $templates));
+        $this->render('add_item', array('model' => $model, 'properties' => $properties));
     }
     
     /**

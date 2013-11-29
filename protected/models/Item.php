@@ -1,5 +1,11 @@
 <?php
-/* Method descriptions for all records:
+/* 
+ * Columns for table 'item'
+ * @property integer id
+ * @property string name 
+ * @property integer type_id
+ * 
+ * Method descriptions for all records:
  * 
  * (static)
  * add: creates and saves a record with the specified attributes into the database

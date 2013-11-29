@@ -1,6 +1,11 @@
 <?php
 
-/* Method descriptions for all records:
+/* Columns for table 'dependency'
+ * @property integer item_id
+ * @property integer depends_on
+ * 
+ * 
+ * Method descriptions for all records:
  * 
  * (static)
  * add: creates and saves a record with the specified attributes into the database

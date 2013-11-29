@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of AddItemForm
+ * Description of ItemForm
  * The class storing the information received from the actual html form in add_item.php
  *
  * $type is in serial id form, not as a string
@@ -54,27 +54,15 @@ class ItemForm extends CFormModel {
             $data[$type->id] = $type->name;
         }
         
+        
         return $data;
     }
     
     /* Saves the item upon submitting the form */
     public function saveItem() {
-        Item::add($this->name, $this->type);
-        
+        return Item::add($this->name, $this->type);
     }
     
-    
-    /* Saves the received properties for this item */
-    public function saveProperties($properties, $templates) {
-        
-        foreach ($properties as $i => $property) {
-            
-            if ($property->value_text != '') {
-                $item = Item::getByName($this->name);
-                Property::add($item[0]->id, $property->name, $templates[$i]->value_type, $property->value_text);
-            }
-        }
-    }
     
 }
 

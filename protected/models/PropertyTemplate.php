@@ -1,6 +1,13 @@
 <?php
 
-/* Method descriptions for all records:
+/* Columns for table 'property_template'
+ * @property integer type_id
+ * @property string name
+ * @property string value_type
+ * @property boolean value_required
+ * @property boolean list_existing_values
+ * 
+ * Method descriptions for all records:
  * 
  * (static)
  * add: creates and saves a record with the specified attributes into the database
