@@ -90,7 +90,6 @@ class SiteController extends Controller {
                 $this->refresh();
             }
         }
-        
 
         $this->render('add_item', array('model' => $model, 'properties' => $properties));
     }

@@ -65,10 +65,53 @@ $this->breadcrumbs = array(
         foreach ($properties as $i=>$property) {
             echo '<div class="control-group">';
 
-            echo $form->labelEx($model, $property->name, array('class' => 'control-label'));
+            echo $form->labelEx($property, "[$i]value", array('class' => 'control-label'));
             echo '<div class="controls">';
-            echo $form->textField($property, "[$i]value");
-            echo $form->error($model, $property->name); 
+            
+            
+            
+            // Input for a property that lists existing values of its type
+            // Uses the combobox extension
+            if ($property->property_template->list_existing_values) {
+                
+                
+                // Get the existing values as an array
+                $existing_values = array();
+                $existing_properties = Property::getByName($property->name);
+                
+                foreach ($existing_properties as $ex_prop) {
+                    if ($ex_prop->item->type_id == $type_id) {
+                        switch ($property->property_template->value_type) {
+                            case Property::ValueTypeText: $existing_values[] = $ex_prop->value_text; break;
+                            case Property::ValueTypeDate: $existing_values[] = $ex_prop->value_date; break;
+                            case Property::ValueTypeInt: $existing_values[] = $ex_prop->value_int; break;
+                            case Property::ValueTypeDouble: $existing_values[] = $ex_prop->value_double; break;
+                        }
+                    }
+                }
+                
+                // Combobox widget
+                $this->widget('ext.combobox.EJuiComboBox', array(
+                    'model' => $property, 'attribute' => "[$i]value",
+                    'data' => $existing_values,
+                    'options' => array('allowText' => true), // Allows editing the text
+                    'htmlOptions' => array('size' => 20) // Limits array size
+                ));
+            }
+            
+            
+            // Input for other types
+            else {
+                switch ($property->property_template->value_type) {
+                    case Property::ValueTypeText: echo $form->textField($property, "[$i]value"); break;
+                    case Property::ValueTypeDate: echo $form->dateField($property, "[$i]value"); break;
+                    case Property::ValueTypeInt: echo $form->textField($property, "[$i]value"); break;
+                    case Property::ValueTypeDouble: echo $form->textField($property, "[$i]value"); break;
+                }
+            }
+            
+            
+            echo $form->error($property, "[$i]value"); 
 
             echo '</div></div>';
         }
