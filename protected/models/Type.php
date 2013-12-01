@@ -48,7 +48,7 @@ class Type extends CActiveRecord {
      */
     public function relations() {
         return array(
-          'items'=>array(self::HAS_MANY, 'item', 'type_id')
+          'items'=>array(self::HAS_MANY, 'Item', 'type_id')
         );
     }
 

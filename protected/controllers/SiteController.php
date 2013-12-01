@@ -42,13 +42,15 @@ class SiteController extends Controller {
      */
     public function actionAddItem() {
         
-        
-        
         $model = new ItemForm();
         $type_id = $model->type_id;
         
         // Get the PropertyTemplates for the properties of this type
         // then create PropertyForm models for each property specified by the template
+        if($type_id == null) {
+            $types = Type::getAll();
+            $type_id = $types[0]->id;
+        }
         $templates = PropertyTemplate::getByType($type_id);
         
         $properties = array();
@@ -62,7 +64,7 @@ class SiteController extends Controller {
         
 
         // Handle received form
-        if (isset($_POST['ItemForm']) and isset($_POST['PropertyForm'])) { 
+        if (isset($_POST['ItemForm'])) { 
             $valid=true;
             
             // Get and validate property values
