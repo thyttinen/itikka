@@ -10,7 +10,7 @@
 <div class="row">
     <div class="span6">
         <!-- Buttons: Add, edit, delete -->
-        <?php echo CHtml::link('Add item', array('additem&type=0'), array('class' => 'btn')); ?>
+        <?php echo CHtml::link('Add item', array('additem'), array('class' => 'btn')); ?>
         <button disabled="disabled" class="btn" type="button">Edit selected</button>
         <button disabled="disabled" class="btn" type="button">Delete selected</button>
     </div>
