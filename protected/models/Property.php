@@ -72,7 +72,7 @@ class Property extends CActiveRecord{
      */
     public function relations() {
         return array(
-          'item'=>array(self::BELONGS_TO, 'item', 'item_id')  
+          'item'=>array(self::BELONGS_TO, 'Item', 'item_id')  
             
         );
     }

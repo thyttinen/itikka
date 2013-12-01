@@ -57,6 +57,27 @@ class PropertyForm extends CFormModel {
     }
     
     
+    
+    /* Creates a list of PropertyForms according to type_id */
+    public static function createPropertiesByType($type_id) {
+        
+        $templates = PropertyTemplate::getByType($type_id);
+        
+        $properties = array();
+        
+        foreach ($templates as $template) {
+            $temp = new PropertyForm;
+            $temp->name = $template->name;
+            $temp->property_template = $template;
+            $properties[] = $temp;
+        }
+        
+        return $properties;
+    }
+    
+    
+    
+    
     /* Saves this property in the database */
     public function saveProperty($item) {
         

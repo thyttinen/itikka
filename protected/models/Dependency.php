@@ -54,8 +54,8 @@ class Dependency extends CActiveRecord {
      */
     public function relations() {
         return array(
-            'item'=>array(self::BELONGS_TO, 'item', 'item_id'),
-            'dependence'=>array(self::BELONGS_TO, 'item', 'depends_on')
+            'item'=>array(self::BELONGS_TO, 'Item', 'item_id'),
+            'dependence'=>array(self::BELONGS_TO, 'Item', 'depends_on')
         );
     }
     

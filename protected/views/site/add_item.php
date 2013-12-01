@@ -3,6 +3,7 @@
 /* @var $model ItemForm */
 /* @var $properties PropertyForm */
 /* @var $form CActiveForm  */
+/* @var $returning_relationships boolean */
 
 $this->pageTitle = Yii::app()->name . ' - Add Item';
 $this->breadcrumbs = array(
@@ -20,6 +21,9 @@ $this->breadcrumbs = array(
 
 <?php endif; ?>
 
+
+ 
+
 <div class="row">
     <div class="span6">
         <?php
@@ -34,6 +38,8 @@ $this->breadcrumbs = array(
         ?>
         
         
+        
+        
         <?php $type_id = $model->type_id; // ItemForm saves the type_id upon construction ?>
         
         <h2>Add item</h2>
@@ -41,7 +47,7 @@ $this->breadcrumbs = array(
             <?php echo $form->labelEx($model, 'type', array('class' => 'control-label')); ?>
             <div class="controls">
                 <?php echo $form->dropDownList($model, 'type', $model->getAvailableTypes(), array('options' => array($type_id => array('selected'=>'selected'))) ); ?>
-                <?php echo $form->error($model, 'type'); ?>
+                <?php echo $form->error($model, 'type');  ?>
             </div>
         </div>
         <hr/>
@@ -124,7 +130,6 @@ $this->breadcrumbs = array(
             </div>
         </div>
 
-        <?php $this->endWidget(); ?>
     </div>
 
     <!-- Relationships -->
@@ -132,7 +137,7 @@ $this->breadcrumbs = array(
         <h2>Relationships</h2>
         <div class="row">
             <div class="span6">
-                <button class="btn"disabled="disabled">Add relationship</button>
+                <?php echo CHtml::submitButton('Add relationship', array('submit' => 'index.php?r=site/addrelationship', 'class' => 'btn')); ?>
                 <form class="navbar-search pull-right">
                     <input type="text" class="search-query" placeholder="Search">
                 </form>
@@ -152,6 +157,8 @@ $this->breadcrumbs = array(
             <tbody>
             </tbody>
         </table>
+        
+        <?php $this->endWidget(); ?>
     </div>
 </div>
 

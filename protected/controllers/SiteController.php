@@ -43,56 +43,96 @@ class SiteController extends Controller {
     public function actionAddItem() {
         
         
-        
         $model = new ItemForm();
         $type_id = $model->type_id;
         
         // Get the PropertyTemplates for the properties of this type
-        // then create PropertyForm models for each property specified by the template
-        $templates = PropertyTemplate::getByType($type_id);
-        
-        $properties = array();
-        
-        foreach ($templates as $template) {
-            $temp = new PropertyForm;
-            $temp->name = $template->name;
-            $temp->property_template = $template;
-            $properties[] = $temp;
-        }
+        $properties = PropertyForm::createPropertiesByType($type_id);
         
 
-        // Handle received form
-        if (isset($_POST['ItemForm']) and isset($_POST['PropertyForm'])) { 
-            $valid=true;
+        // Handle received item form
+        if (isset($_POST['ItemForm']) and isset($_POST['PropertyForm'])) {
             
-            // Get and validate property values
-            foreach($properties as $i=>$property)
-            {
-                if(isset($_POST['PropertyForm'][$i])) {
-                    $property->attributes=$_POST['PropertyForm'][$i];
-                    //$property->value=$_POST['Property'][$i]['value'];
+            
+            
+
+            // Save the received temporary item and properties to form state 
+            // while handling relationships
+            // Doesn't work yet
+            if (isset($_POST['yt1'])) {
+                $item->attributes = $_POST['ItemForm'];
+                Yii::app()->session['editing_item_type'] = $item->type;
+                Yii::app()->session['editing_item_name'] = $item->name;
+                
+                foreach($properties as $i=>$property)
+                {
+                    if(isset($_POST['PropertyForm'][$i])) {
+                        $property->attributes=$_POST['PropertyForm'][$i];
+                        Yii::app()->session['editing_property_' . $property->name] = $property->value;
+                    }
                 }
-                $valid=$property->validate() && $valid;
             }
             
-            $model->attributes = $_POST['ItemForm'];
             
-            // Save the Item and Properties
-            if ($model->validate() && $valid) {
-                
-                $item = $model->saveItem();
-                
-                foreach ($properties as $property) {
-                    $property->saveProperty($item);
+            
+            
+            // Save the item and properties into the database
+            // and validate them
+            else {
+                $valid=true;
+
+                // Get and validate property values
+                foreach($properties as $i=>$property)
+                {
+                    if(isset($_POST['PropertyForm'][$i])) {
+                        $property->attributes=$_POST['PropertyForm'][$i];
+                        //$property->value=$_POST['Property'][$i]['value'];
+                    }
+                    $valid=$property->validate() && $valid;
                 }
 
-                Yii::app()->user->setFlash('add_item', 'Item saved.');
-                $this->refresh();
+                $model->attributes = $_POST['ItemForm'];
+
+                // Save the Item and Properties if valid
+                if ($model->validate() && $valid) {
+
+                    $item = $model->saveItem();
+
+                    foreach ($properties as $property) {
+                        $property->saveProperty($item);
+                    }
+
+                    Yii::app()->user->setFlash('add_item', 'Item saved.');
+                    $this->refresh();
+                }
             }
         }
 
         $this->render('add_item', array('model' => $model, 'properties' => $properties));
     }
+    
+    
+    
+    /**
+     * Displays the relationship adding page, accessed through Add Item and Edit Item
+     */
+    public function actionAddRelationship() {
+        
+        $model = new RelationshipForm;
+   
+        
+        $this->render('add_relationship', array('model' => $model));
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Displays the item view page with add_item.php

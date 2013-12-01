@@ -65,7 +65,7 @@ class PropertyTemplate extends CActiveRecord{
      */
     public function relations() {
         return array(
-          'type'=>array(self::BELONGS_TO, 'type', 'type_id')  
+          'type'=>array(self::BELONGS_TO, 'Type', 'type_id')  
             
         );
     }
