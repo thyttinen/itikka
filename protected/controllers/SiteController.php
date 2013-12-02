@@ -127,6 +127,7 @@ class SiteController extends Controller {
                     
 
                     Yii::app()->user->setFlash('add_item', 'Item saved.');
+                    Yii::app()->session['returning_relationships'] = false;
                     $this->refresh();
                 }
             }
