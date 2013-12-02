@@ -1,4 +1,8 @@
-<?php /* @var $this Controller */ ?>
+<?php /* @var $this Controller */ 
+
+Yii::app()->clientScript->registerCoreScript('jquery');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,7 +33,7 @@
                             'items' => array(
                                 array('label' => 'Home', 'url' => array('/site/index')),
                                 array('label' => 'Items', 'url' => array('/site/items')),
-                                array('label' => 'Types', 'url' => array('/site/types'))
+                                array('label' => 'Types', 'url' => array('/site/addType'))
                             )
                         ));
                         ?>

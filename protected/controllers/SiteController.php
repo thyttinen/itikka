@@ -240,13 +240,48 @@ class SiteController extends Controller {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * Displays the Type adding page, add_type.php
+     */
+    public function actionAddType() {
+        $type = new TypeForm;
+                
+        $propertytemplates = array();
+        $propertyTemplate;
+             
+        //posting Type or Requesting a new row
+        if (isset($_POST['TypeForm'])) {
+            
+            //adding a row, keep form data as is
+            if (isset($_POST['add-row'])) {
+                $type->attributes=$_POST['TypeForm'];
+                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
+                    $propertyTemplate = new PropertyTemplateForm;
+                    $propertyTemplate->attributes=$propertyTemplateInput;
+                    $propertytemplates[] = $propertyTemplate;
+                }
+                $propertytemplates[] = new PropertyTemplateForm;
+            }
+            //submitting Type
+            else {
+                $type->attributes=$_POST['TypeForm'];
+                $type = $type->saveType();
+                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
+                    $propertyTemplate = new PropertyTemplateForm;
+                    $propertyTemplate->attributes=$propertyTemplateInput;
+                    $propertyTemplate->savePropertyTemplate($type);
+                }
+                Yii::app()->user->setFlash('add_type', 'Type saved.');
+                $this->refresh();
+            }
+   
+        //just entering the view, add 1 propertytemplate
+        }else{
+            $propertytemplates[] = new PropertyTemplateForm;
+        }
+        
+        $this->render('add_type', array('type' => $type, 'propertytemplates' => $propertytemplates));
+    }
     
     
     /**
