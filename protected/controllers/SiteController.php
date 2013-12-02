@@ -52,7 +52,7 @@ class SiteController extends Controller {
         
         // Get the relationships for this item if we're returning from adding relationships
         $relationships = array();
-        if (Yii::app()->session['returning_relationships']) {
+        if (Yii::app()->session['remember_form']) {
             $relationships = RelationshipForm::getRelationships();
         }
 
@@ -127,7 +127,7 @@ class SiteController extends Controller {
                     
 
                     Yii::app()->user->setFlash('add_item', 'Item saved.');
-                    Yii::app()->session['returning_relationships'] = false;
+                    Yii::app()->session['remember_form'] = false;
                     $this->refresh();
                 }
             }
@@ -160,7 +160,7 @@ class SiteController extends Controller {
         
         
         // Preset some values if the user has been here before
-        if (Yii::app()->session['returning_relationships']) {
+        if (Yii::app()->session['remember_form']) {
             $saved_relationships = RelationshipForm::getRelationships();
             
             foreach ($saved_relationships as $i => $relationship) {
@@ -222,7 +222,7 @@ class SiteController extends Controller {
                 Yii::app()->session['editing_relationship_count'] = $count;
                 
                 // Set the session variable so we know to use the saved values in add_item when returning to it
-                Yii::app()->session['returning_relationships'] = true;
+                Yii::app()->session['remember_form'] = true;
                 
                 
                 

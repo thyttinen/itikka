@@ -25,7 +25,7 @@ class ItemForm extends CFormModel {
         
         // Clicked Add new item; don't use the saved relationship values
         else {
-            Yii::app()->session['returning_relationships'] = false;
+            Yii::app()->session['remember_form'] = false;
         }
     }
     

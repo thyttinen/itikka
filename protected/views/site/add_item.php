@@ -4,7 +4,7 @@
 /* @var $properties PropertyForm */
 /* @var $relationships RelationshipForm */
 /* @var $form CActiveForm  */
-/* @var $returning_relationships boolean */
+/* @var $remember_form boolean */
 
 $this->pageTitle = Yii::app()->name . ' - Add Item';
 $this->breadcrumbs = array(
@@ -45,12 +45,12 @@ $this->breadcrumbs = array(
         $type_id = $model->type; // ItemForm saves the type_id upon construction 
         
         // First time in this session
-        if (Yii::app()->session['returning_relationships'] == null) {
-            Yii::app()->session['returning_relationships'] = false;
+        if (Yii::app()->session['remember_form'] == null) {
+            Yii::app()->session['remember_form'] = false;
         }
         
         // If we are returning from adding relationships, use the saved values for the model
-        if (Yii::app()->session['returning_relationships'] == true) {
+        if (Yii::app()->session['remember_form'] == true) {
             $type_id = $model->type = Yii::app()->session['editing_item_type'];
             $model->name = Yii::app()->session['editing_item_name'];
             
