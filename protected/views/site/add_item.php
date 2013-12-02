@@ -2,6 +2,7 @@
 /* @var $this SiteController */
 /* @var $model ItemForm */
 /* @var $properties PropertyForm */
+/* @var $relationships RelationshipForm */
 /* @var $form CActiveForm  */
 /* @var $returning_relationships boolean */
 
@@ -21,12 +22,7 @@ $this->breadcrumbs = array(
 
 <?php endif; ?>
 
-
- 
-
-<div class="row">
-    <div class="span6">
-        <?php
+<?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'item-form',
             'enableClientValidation' => true,
@@ -36,11 +32,36 @@ $this->breadcrumbs = array(
             'htmlOptions' => array('class' => 'form-horizontal')
         ));
         ?>
+ 
+
+<div class="row">
+    <div class="span6">
         
         
         
         
-        <?php $type_id = $model->type_id; // ItemForm saves the type_id upon construction ?>
+        
+        <?php 
+        $type_id = $model->type; // ItemForm saves the type_id upon construction 
+        
+        // First time in this session
+        if (Yii::app()->session['returning_relationships'] == null) {
+            Yii::app()->session['returning_relationships'] = false;
+        }
+        
+        // If we are returning from adding relationships, use the saved values for the model
+        if (Yii::app()->session['returning_relationships'] == true) {
+            $type_id = $model->type = Yii::app()->session['editing_item_type'];
+            $model->name = Yii::app()->session['editing_item_name'];
+            
+            foreach ($properties as $i => $property) {
+                $property->value = Yii::app()->session['editing_property_' . $property->name];
+            }
+        }
+        
+        
+        ?>
+        
         
         <h2>Add item</h2>
         <div class="control-group">
@@ -127,17 +148,22 @@ $this->breadcrumbs = array(
         <div class="control-group">
             <div class="controls">
                 <?php echo CHtml::submitButton('Add', array('class' => 'btn')); ?>
+                
             </div>
+            
+               
         </div>
-
+         
     </div>
+    
+    
 
     <!-- Relationships -->
     <div class="span6">
         <h2>Relationships</h2>
         <div class="row">
             <div class="span6">
-                <?php echo CHtml::submitButton('Add relationship', array('submit' => 'index.php?r=site/addrelationship', 'class' => 'btn')); ?>
+                <?php echo CHtml::submitButton('Edit relationships', array('class' => 'btn')); ?>
                 <form class="navbar-search pull-right">
                     <input type="text" class="search-query" placeholder="Search">
                 </form>
@@ -148,19 +174,53 @@ $this->breadcrumbs = array(
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Relationship</th>
+                    <th>Depends on</th>
+                    <th>Dependency to</th>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Type</th>
                 </tr>
             </thead>
             <tbody>
+                
+                <?php
+                
+                // List the relationships
+                foreach ($relationships as $i => $relationship) {
+                    
+                    $item = Item::model()->findByPk($relationship->item_id);
+                    $relationship_name = $item->name;
+                    $relationship_type = $item->type->name;
+                    
+                    
+                    echo '<tr>';
+                    
+                    echo '<td>';
+                    echo $form->checkBox($relationship, "[$i]depends_on", array('disabled' => 'disabled'));
+                    echo '</td>';
+                    
+                    echo '<td>';
+                    echo $form->checkBox($relationship, "[$i]dependency_to", array('disabled' => 'disabled'));
+                    echo '</td>';
+                    
+                    
+                    echo "<td>$relationship->item_id</td>";
+                    echo "<td>$relationship_name</td>";
+                    echo "<td>$relationship_type</td>";
+                    
+                    echo '</tr>';
+                }
+                ?>
             </tbody>
         </table>
         
         <?php $this->endWidget(); ?>
     </div>
 </div>
+
+
+
+
 
 
 <script type="text/javascript">

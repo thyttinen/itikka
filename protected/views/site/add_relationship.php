@@ -15,15 +15,11 @@ $this->breadcrumbs = array(
     <!-- Adding relationships -->
     <div class="row">
         <div class="span12">
-            <h2>Add relationship to: testipalvelin</h2>
+            <h2>Add relationships to: <?php echo Yii::app()->session['editing_item_name']; ?></h2>
             <br/>
-            <h3>Item testipalvelin depends on: </h3>
+            <h3>Item <?php echo Yii::app()->session['editing_item_name']; ?>'s relationships: </h3>
         </div>
     </div>
-    
-    <pre>
-    <?php //var_dump($_POST); ?>
-    </pre>
     
     
     <?php
@@ -44,6 +40,7 @@ $this->breadcrumbs = array(
     <div class="row">
         <div class="span6">
             
+    <!--
             
             <select id="inputType">
                 <option>Kaikki</option>
@@ -53,6 +50,7 @@ $this->breadcrumbs = array(
                 <option>Työasema</option>
                 <option>Tulostin</option>
             </select>
+    -->
         </div>
         <div class="span6">
             
@@ -81,23 +79,56 @@ $this->breadcrumbs = array(
                 
                 <thead>
                     <tr>
-                        <th> </th>
+                        <th>Depends on</th>
+                        <th>Dependency to</th>
                         <th>Id</th>
                         <th>Name</th>
                         <th>Type</th>
                     </tr>
                 </thead>
                 
+               
+                
                 
                 <tbody>
-                    <tr>
-                        <td>
-                            <?php echo $form->checkBox($model, 'testbox'); ?>
-                        </td>
-                        <td>1</td>
-                        <td>Palvelin1</td>
-                        <td>Palvelin</td>
-                    </tr>
+                    
+                    
+                    
+                    <?php 
+                    
+                    
+                    foreach ($relationships as $i => $relationship) {
+
+                        echo '<tr>';
+                        
+                        echo '<td>';
+                        echo $form->checkBox($relationship, "[$i]depends_on");
+                        echo '</td>';
+
+                        echo '<td>';
+                        echo $form->checkBox($relationship, "[$i]dependency_to");
+                        echo '</td>';
+                        
+                        $item = Item::model()->findByPk($relationship->item_id);
+                        $type_name = $item->type->name;
+                        
+                        echo "<td> $item->id </td>";
+                        echo "<td> $item->name </td>";
+                        echo "<td> $type_name </td>";
+                        
+                        
+                        echo '</tr>';
+                    }
+                    
+                    ?>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 </tbody>
                 
                 
@@ -106,7 +137,7 @@ $this->breadcrumbs = array(
             <br/>
             <div class="controls">
                 <div class="controls">
-                    <?php echo CHtml::submitButton('Add relationships', array('submit' => 'index.php?r=site/additem', 'class' => 'btn')); ?>
+                    <?php echo CHtml::submitButton('Return to item', array('class' => 'btn')); ?>
                 </div>
             </div>
             

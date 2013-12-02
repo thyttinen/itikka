@@ -11,8 +11,6 @@ class ItemForm extends CFormModel {
     public $name;
     public $type;
     
-    public $type_id;
-    
     
     /* Constructor, saves type_id at the beginning of a page-load for later use */
     public function __construct() {
@@ -20,9 +18,14 @@ class ItemForm extends CFormModel {
         // Get type id from GET, the page should reload when type is changed above
         // default is first (by name). Note: should be done more efficiently
         $types = Type::getAll();
-        $this->type_id = $types[0]->id;
+        $this->type = $types[0]->id;
         if (isset($_GET['type'])) {
-            $this->type_id = $_GET['type'];
+            $this->type = $_GET['type'];
+        }
+        
+        // Clicked Add new item; don't use the saved relationship values
+        else {
+            Yii::app()->session['returning_relationships'] = false;
         }
     }
     

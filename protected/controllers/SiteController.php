@@ -36,6 +36,8 @@ class SiteController extends Controller {
             $this->render('items', $params);
         }
     }
+    
+    
 
     /**
      * Displays the item adding page with add_item.php and ItemForm / PropertyForm
@@ -43,40 +45,32 @@ class SiteController extends Controller {
     public function actionAddItem() {
         
         $model = new ItemForm();
-        $type_id = $model->type_id;
+        $type_id = $model->type;
         
         // Get the PropertyTemplates for the properties of this type
-        // then create PropertyForm models for each property specified by the template
-        if($type_id == null) {
-            $types = Type::getAll();
-            $type_id = $types[0]->id;
+        $properties = PropertyForm::createPropertiesByType($type_id);
+        
+        // Get the relationships for this item if we're returning from adding relationships
+        $relationships = array();
+        if (Yii::app()->session['returning_relationships']) {
+            $relationships = RelationshipForm::getRelationships();
         }
-        $templates = PropertyTemplate::getByType($type_id);
-        
-        $properties = array();
-        
-        foreach ($templates as $template) {
-            $temp = new PropertyForm;
-            $temp->name = $template->name;
-            $temp->property_template = $template;
-            $properties[] = $temp;
-        }
-        
 
-        // Handle received form
+        
+        // Handle the received form, saving item, properties and relationships to the database
         if (isset($_POST['ItemForm'])) { 
             $valid=true;
-            
             
             
 
             // Save the received temporary item and properties to form state 
             // while handling relationships
-            // Doesn't work yet
             if (isset($_POST['yt1'])) {
+                $item = new ItemForm;
                 $item->attributes = $_POST['ItemForm'];
                 Yii::app()->session['editing_item_type'] = $item->type;
                 Yii::app()->session['editing_item_name'] = $item->name;
+                
                 
                 foreach($properties as $i=>$property)
                 {
@@ -85,13 +79,15 @@ class SiteController extends Controller {
                         Yii::app()->session['editing_property_' . $property->name] = $property->value;
                     }
                 }
+                
+                
+                $this->redirect('index.php?r=site/addrelationship');
             }
             
             
             
             
-            // Save the item and properties into the database
-            // and validate them
+            // Save the item, properties and relationships into the database
             else {
                 $valid=true;
 
@@ -100,21 +96,35 @@ class SiteController extends Controller {
                 {
                     if(isset($_POST['PropertyForm'][$i])) {
                         $property->attributes=$_POST['PropertyForm'][$i];
-                        //$property->value=$_POST['Property'][$i]['value'];
                     }
                     $valid=$property->validate() && $valid;
                 }
+                
+                
+                 // Get and validate relationship values
+                $relationships = RelationshipForm::getRelationships();
+                
+                foreach ($relationships as $i => $relationship) {
+                    $valid=$relationship->validate() && $valid;
+                }
+                
 
+                // Get item values
                 $model->attributes = $_POST['ItemForm'];
 
-                // Save the Item and Properties if valid
+                
+                
+                // Save if valid 
                 if ($model->validate() && $valid) {
-
+                    
                     $item = $model->saveItem();
-
                     foreach ($properties as $property) {
                         $property->saveProperty($item);
                     }
+                    foreach ($relationships as $relationship) {
+                        $relationship->saveRelationship($item);
+                    }
+                    
 
                     Yii::app()->user->setFlash('add_item', 'Item saved.');
                     $this->refresh();
@@ -122,20 +132,110 @@ class SiteController extends Controller {
             }
         }
 
-        $this->render('add_item', array('model' => $model, 'properties' => $properties));
+        $this->render('add_item', array('model' => $model, 
+            'properties' => $properties, 
+            'relationships' => $relationships));
     }
+   
+    
+    
     
     
     
     /**
      * Displays the relationship adding page, accessed through Add Item and Edit Item
+     * submitted relationship data is passed on through session variables to addItem to be saved together with the item
      */
     public function actionAddRelationship() {
         
-        $model = new RelationshipForm;
-   
+        // Get relationship forms for all items
+        $relationships = array();
+            
+        foreach (Item::getAll() as $item) {
+            $temp = new RelationshipForm;
+            $temp->item_id = $item->id;
+            $relationships[] = $temp;
+        }
         
-        $this->render('add_relationship', array('model' => $model));
+        
+        // Preset some values if the user has been here before
+        if (Yii::app()->session['returning_relationships']) {
+            $saved_relationships = RelationshipForm::getRelationships();
+            
+            foreach ($saved_relationships as $i => $relationship) {
+                
+                for ($j = 0; $j < count($relationships); $j++) {
+                    if ($relationships[$j]->item_id == $relationship->item_id) {
+                        $relationships[$j] = $relationship;
+                        break;
+                    }
+                }
+            }
+        }
+            
+        
+       
+        
+        // Handle submitted relationships
+        if (isset($_POST['RelationshipForm'])) {
+            
+            
+        
+            $valid=true;
+
+            // Get and validate the relationships
+            foreach($relationships as $i => $relationship)
+            {
+                if(isset($_POST['RelationshipForm'][$i])) {
+                    $relationship->attributes=$_POST['RelationshipForm'][$i];
+                }
+                
+                
+                $valid = $relationship->validate() && $valid;
+            }
+            
+            
+            if ($valid) {
+                
+                // Reset the session variables and save the valid relationships to them
+                if (Yii::app()->session['editing_relationship_count'] != null) {
+                    for ($i = 0; $i < Yii::app()->session['editing_relationship_count']; $i = $i + 1) {
+                         Yii::app()->session['editing_relationship_' . $i . 'item_id'] = null;
+                         Yii::app()->session['editing_relationship_' . $i . 'depends_on'] = null;
+                         Yii::app()->session['editing_relationship_' . $i . 'dependency_to'] = null;
+                    }
+                }
+                
+                $count = 0;
+                foreach ($relationships as $i => $relationship) {
+                    
+                    if (strcmp($relationship->dependency_to, '1') == 0 
+                            || strcmp($relationship->depends_on, '1') == 0) {
+                        
+                        Yii::app()->session['editing_relationship_' . $count . 'item_id'] = $relationship->item_id;
+                        Yii::app()->session['editing_relationship_' . $count . 'depends_on'] = $relationship->depends_on;
+                        Yii::app()->session['editing_relationship_' . $count . 'dependency_to'] = $relationship->dependency_to;
+                        $count = $count + 1;
+                    }
+                }
+                Yii::app()->session['editing_relationship_count'] = $count;
+                
+                // Set the session variable so we know to use the saved values in add_item when returning to it
+                Yii::app()->session['returning_relationships'] = true;
+                
+                
+                
+                // Return to item adding view
+                $this->redirect('index.php?r=site/additem&type=' . Yii::app()->session['editing_item_type']);
+            
+            }
+            
+            
+        }
+        
+   
+        $this->render('add_relationship', array('relationships' => $relationships));
+        
     }
     
     
