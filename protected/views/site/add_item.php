@@ -124,6 +124,8 @@ $this->breadcrumbs = array(
                     'options' => array('allowText' => true), // Allows editing the text
                     'htmlOptions' => array('size' => 20) // Limits array size
                 ));
+                
+                echo "\n\n";
             }
             
             
@@ -186,31 +188,32 @@ $this->breadcrumbs = array(
                 <?php
                 
                 // List the relationships
-                foreach ($relationships as $i => $relationship) {
+                foreach ($relationships as $i => $relationship):
                     
-                    $item = Item::model()->findByPk($relationship->item_id);
-                    $relationship_name = $item->name;
-                    $relationship_type = $item->type->name;
+                $item = Item::model()->findByPk($relationship->item_id);
+                $relationship_name = $item->name;
+                $relationship_type = $item->type->name;
                     
-                    
-                    echo '<tr>';
-                    
-                    echo '<td>';
-                    echo $form->checkBox($relationship, "[$i]depends_on", array('disabled' => 'disabled'));
-                    echo '</td>';
-                    
-                    echo '<td>';
-                    echo $form->checkBox($relationship, "[$i]dependency_to", array('disabled' => 'disabled'));
-                    echo '</td>';
-                    
-                    
-                    echo "<td>$relationship->item_id</td>";
-                    echo "<td>$relationship_name</td>";
-                    echo "<td>$relationship_type</td>";
-                    
-                    echo '</tr>';
-                }
                 ?>
+                    
+                    <tr>
+                    <td>
+                    <?php echo $form->checkBox($relationship, "[$i]depends_on", array('disabled' => 'disabled')); ?>
+                    </td>
+                    
+                    <td>
+                    <?php echo $form->checkBox($relationship, "[$i]dependency_to", array('disabled' => 'disabled')); ?>
+                    </td>
+                    
+                    
+                    <td><?php echo $relationship->item_id; ?></td>
+                    <td><?php echo $relationship_name; ?></td>
+                    <td><?php echo $relationship_type; ?></td>
+                    
+                    </tr>
+                
+                <?php endforeach; ?>
+                    
             </tbody>
         </table>
         

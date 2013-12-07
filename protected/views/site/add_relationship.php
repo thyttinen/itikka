@@ -93,42 +93,28 @@ $this->breadcrumbs = array(
                 <tbody>
                     
                     
-                    
-                    <?php 
-                    
-                    
-                    foreach ($relationships as $i => $relationship) {
+                    <?php foreach ($relationships as $i => $relationship): ?>
 
-                        echo '<tr>';
-                        
-                        echo '<td>';
-                        echo $form->checkBox($relationship, "[$i]depends_on");
-                        echo '</td>';
-
-                        echo '<td>';
-                        echo $form->checkBox($relationship, "[$i]dependency_to");
-                        echo '</td>';
-                        
+                    <tr>
+                        <td>
+                        <?php echo $form->checkBox($relationship, "[$i]depends_on"); ?>
+                        </td>
+                        <td>
+                        <?php echo $form->checkBox($relationship, "[$i]dependency_to"); ?>
+                        </td>
+                        <?php
                         $item = Item::model()->findByPk($relationship->item_id);
                         $type_name = $item->type->name;
-                        
-                        echo "<td> $item->id </td>";
-                        echo "<td> $item->name </td>";
-                        echo "<td> $type_name </td>";
-                        
-                        
-                        echo '</tr>';
-                    }
-                    
-                    ?>
+                        ?>
+                        <td> <?php echo $item->id; ?> </td>
+                        <td> <?php echo $item->name; ?> </td>
+                        <td> <?php echo $type_name; ?> </td>
+                   </tr>
+                   
+                   <?php endforeach; ?>
                     
                     
-                    
-                    
-                    
-                    
-                    
-                    
+                   
                 </tbody>
                 
                 
