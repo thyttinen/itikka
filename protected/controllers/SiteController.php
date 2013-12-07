@@ -102,10 +102,13 @@ class SiteController extends Controller {
                 
                 
                  // Get and validate relationship values
-                $relationships = RelationshipForm::getRelationships();
-                
-                foreach ($relationships as $i => $relationship) {
-                    $valid=$relationship->validate() && $valid;
+                $relationships = array();
+                if (Yii::app()->session['remember_form']) {
+                    $relationships = RelationshipForm::getRelationships();
+
+                    foreach ($relationships as $i => $relationship) {
+                        $valid=$relationship->validate() && $valid;
+                    }
                 }
                 
 
@@ -121,6 +124,7 @@ class SiteController extends Controller {
                     foreach ($properties as $property) {
                         $property->saveProperty($item);
                     }
+                    
                     foreach ($relationships as $relationship) {
                         $relationship->saveRelationship($item);
                     }
