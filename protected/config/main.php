@@ -49,7 +49,7 @@ return array(
 		'db'=>array(
                         'class' => 'MyDbConnection',
 			'connectionString' => 'pgsql:host=localhost;port=5432;dbname=itikka',
-			'emulatePrepare' => true,
+			//doesn't work with postgres 'emulatePrepare' => true,
 			'username' => 'postgres',
 			'password' => 'Tr56ui78',
 			'charset' => 'utf8',
