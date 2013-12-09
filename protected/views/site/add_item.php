@@ -165,7 +165,7 @@ $this->breadcrumbs = array(
         <h2>Relationships</h2>
         <div class="row">
             <div class="span6">
-                <?php echo CHtml::submitButton('Edit relationships', array('class' => 'btn')); ?>
+                <?php echo CHtml::submitButton('Edit relationships', array('class' => 'btn', 'name' => 'RelationshipsButton')); ?>
                 <form class="navbar-search pull-right">
                     <input type="text" class="search-query" placeholder="Search">
                 </form>

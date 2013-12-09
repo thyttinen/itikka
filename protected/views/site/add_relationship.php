@@ -3,7 +3,7 @@
 /* @var $model RelationshipForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle = Yii::app()->name . ' - Add Relationship';
+$this->pageTitle = Yii::app()->name . ' - Edit Relationships';
 $this->breadcrumbs = array(
     'Items' => array('items'),
     'Add Relationship',

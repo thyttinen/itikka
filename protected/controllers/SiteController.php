@@ -24,12 +24,52 @@ class SiteController extends Controller {
      * Displays item list page
      */
     public function actionItems() {
-        $model = new Item();
-
+        $model = new Item('search');
+        
+        
+        // Perform operations on the selected items
+        if (isset($_POST['selected'])) {
+                
+            
+            // Delete selected items
+            if (isset($_POST['DeleteButton'])) {
+                
+                foreach ($_POST['selected'] as $item_id) {
+                    
+                    foreach (Property::getByItem($item_id) as $property) {
+                        Property::remove($item_id, $property->name);
+                    }
+                    
+                    foreach (Dependency::getByDependentItem($item_id) as $dependency) {
+                        Dependency::remove($dependency->item_id, $dependency->depends_on);
+                    }
+                    
+                    foreach (Dependency::getByDependenceItem($item_id) as $dependency) {
+                        Dependency::remove($dependency->item_id, $dependency->depends_on);
+                    }
+                    
+                    Item::remove($item_id);
+                    
+                    
+                    
+                }
+                
+                // Send a message to the user
+                Yii::app()->user->setFlash('items', 'Items deleted.');
+                $this->refresh();
+            }
+            
+            
+            
+            
+        }
+        
+        
+        
         $params = array(
             'model' => $model,
         );
-
+        
         if (isset($_GET['ajax'])) {
             $this->renderPartial('items', $params);
         } else {
@@ -65,7 +105,7 @@ class SiteController extends Controller {
 
             // Save the received temporary item and properties to form state 
             // while handling relationships
-            if (isset($_POST['yt1'])) {
+            if (isset($_POST['RelationshipsButton'])) {
                 $item = new ItemForm;
                 $item->attributes = $_POST['ItemForm'];
                 Yii::app()->session['editing_item_type'] = $item->type;
