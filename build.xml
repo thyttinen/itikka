@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<project name="name-of-project" default="build">
+    <property name="basedir" value="." />
+    <target name="build"
+            depends="prepare,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpdoc,phpunit,phpcb"/>
+ 
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/api"/>
+        <delete dir="${basedir}/build/code-browser"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/pdepend"/>
+    </target>
+ 
+    <target name="prepare" depends="clean"
+            description="Prepare for build">
+        <echo msg="${basedir}" />
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
+    </target>
+ 
+    <target name="lint">
+        <phplint>
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <exclude name="**/tests/**" />
+            </fileset>
+        </phplint>
+    </target>
+ 
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--log-csv" />
+            <arg value="${basedir}/build/logs/phploc.csv" />
+            <arg value="--exclude"/>
+            <arg path="${basedir}/tests" />
+            <arg value="--suffixes"/>
+            <arg value="php" />
+            <arg path="${basedir}" />
+        </exec>
+    </target>
+ 
+    <target name="pdepend">
+        <phpdepend>
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <exclude name="**/tests/**" />
+            </fileset>
+            <logger type="jdepend-xml" outfile="${basedir}/build/logs/jdepend.xml"/>
+            <logger type="jdepend-chart" outfile="${basedir}/build/pdepend/dependencies.svg"/>
+            <logger type="overview-pyramid" outfile="${basedir}/build/pdepend/overview-pyramid.svg"/>
+        </phpdepend>
+    </target>
+ 
+    <target name="phpmd"
+            description="Generate pmd.xml using PHPMD">
+        <phpmd rulesets="codesize,unusedcode,naming,design">
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <exclude name="**/tests/**" />
+            </fileset>
+            <formatter type="xml" outfile="${basedir}/build/logs/pmd.xml"/>
+        </phpmd>
+    </target>
+ 
+    <target name="phpcs">
+        <phpcodesniffer standard="Zend" allowedFileExtensions="php">
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <exclude name="**/tests/**" />
+            </fileset>
+            <formatter type="default" usefile="false"  />
+            <formatter type="checkstyle" outfile="${basedir}/build/logs/checkstyle.xml" />
+        </phpcodesniffer>
+    </target>
+ 
+    <target name="phpcpd">
+        <phpcpd>
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+            </fileset>
+            <formatter type="pmd" outfile="${basedir}/build/logs/pmd-cpd.xml"/>
+        </phpcpd>
+    </target>
+ 
+    <target name="phpdoc" description="AutoGenerate php docs">
+        <phpdoc title="My API Docs"
+                sourcecode="yes"
+                destdir="${basedir}/build/api"
+                output="HTML:Smarty:PHP">
+            <fileset dir="${basedir}">
+                <include name="**/*.php" />
+                <exclude name="**/tests/**" />
+            </fileset>
+        </phpdoc>
+    </target>
+ 
+     <target name="phpunit" description="Run unit tests with PHPUnit">
+         <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
+        --log-junit ${basedir}/build/logs/junit.xml
+        --coverage-clover ${basedir}/build/logs/clover.xml
+        --coverage-html ${basedir}/build/coverage"/>
+    </target>
+ 
+    <target name="phpcb"
+            description="Aggregate tool output with PHP_CodeBrowser">
+        <exec executable="phpcb">
+            <arg value="--log" />
+            <arg path="${basedir}/build/logs" />
+            <arg value="--source" />
+            <arg path="${basedir}/application" />
+            <arg value="--source" />
+            <arg path="${basedir}/library" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/code-browser" />
+        </exec>
+    </target>
+</project>
