@@ -57,10 +57,7 @@ Yii::app()->clientScript->registerCoreScript('jquery');
                 ?>
             <?php endif ?>
 
-            <div class="hero-unit">
-                <h1 class="text-center"><?php echo Yii::app()->name ?></h1>
-            </div>
-
+         
             <?php echo $content; ?>
 
             <hr>
