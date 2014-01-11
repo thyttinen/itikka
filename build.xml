@@ -44,7 +44,6 @@
         </exec>
     </target>
     
- <!-- Edited out - very time and memory consuming
     <target name="pdepend">
         <phpdepend>
             <fileset dir="${basedir}">
@@ -56,7 +55,7 @@
             <logger type="overview-pyramid" outfile="${basedir}/build/pdepend/overview-pyramid.svg"/>
         </phpdepend>
     </target>
--->
+
     
     <target name="phpunit" description="Run unit tests with PHPUnit">
          <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
