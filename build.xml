@@ -3,7 +3,7 @@
 <project name="name-of-project" default="build">
     <property name="basedir" value="." />
     <target name="build"
-            depends="prepare,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpdoc,phpunit,phpcb"/>
+            depends="prepare,lint,phploc,phpcs,phpcpd,phpdoc,phpunit,phpcb"/>
  
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/build/api"/>
@@ -43,7 +43,7 @@
             <arg path="${basedir}" />
         </exec>
     </target>
-    
+    <!--
     <target name="pdepend">
         <phpdepend>
             <fileset dir="${basedir}">
@@ -55,7 +55,7 @@
             <logger type="overview-pyramid" outfile="${basedir}/build/pdepend/overview-pyramid.svg"/>
         </phpdepend>
     </target>
-
+-->
     
     <target name="phpunit" description="Run unit tests with PHPUnit">
          <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
@@ -64,7 +64,7 @@
         --coverage-html ${basedir}/build/coverage"/>
     </target>
  
-
+<!--
     <target name="phpmd"
             description="Generate pmd.xml using PHPMD">
         <phpmd rulesets="codesize,unusedcode,naming,design">
@@ -75,6 +75,7 @@
             <formatter type="xml" outfile="${basedir}/build/logs/pmd.xml"/>
         </phpmd>
     </target>
+-->
     
 <!-- Edited out - codesniffer is not compatible with current version of phing
     <target name="phpcs">
