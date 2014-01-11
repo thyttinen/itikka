@@ -43,7 +43,8 @@
             <arg path="${basedir}" />
         </exec>
     </target>
- 
+    
+ <!-- Edited out - very time and memory consuming
     <target name="pdepend">
         <phpdepend>
             <fileset dir="${basedir}">
@@ -55,7 +56,16 @@
             <logger type="overview-pyramid" outfile="${basedir}/build/pdepend/overview-pyramid.svg"/>
         </phpdepend>
     </target>
+-->
+    
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+         <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
+        --log-junit ${basedir}/build/logs/junit.xml
+        --coverage-clover ${basedir}/build/logs/clover.xml
+        --coverage-html ${basedir}/build/coverage"/>
+    </target>
  
+ <!-- Edited out - phpmd is time consuming and codesniffer is not compatible with current version of phing
     <target name="phpmd"
             description="Generate pmd.xml using PHPMD">
         <phpmd rulesets="codesize,unusedcode,naming,design">
@@ -66,7 +76,7 @@
             <formatter type="xml" outfile="${basedir}/build/logs/pmd.xml"/>
         </phpmd>
     </target>
- 
+    
     <target name="phpcs">
         <phpcodesniffer standard="Zend" allowedFileExtensions="php">
             <fileset dir="${basedir}">
@@ -77,6 +87,7 @@
             <formatter type="checkstyle" outfile="${basedir}/build/logs/checkstyle.xml" />
         </phpcodesniffer>
     </target>
+-->
  
     <target name="phpcpd">
         <phpcpd>
@@ -99,12 +110,8 @@
         </phpdoc>
     </target>
  
-     <target name="phpunit" description="Run unit tests with PHPUnit">
-         <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
-        --log-junit ${basedir}/build/logs/junit.xml
-        --coverage-clover ${basedir}/build/logs/clover.xml
-        --coverage-html ${basedir}/build/coverage"/>
-    </target>
+
+     
  
     <target name="phpcb"
             description="Aggregate tool output with PHP_CodeBrowser">
@@ -119,4 +126,5 @@
             <arg path="${basedir}/build/code-browser" />
         </exec>
     </target>
+    
 </project>
