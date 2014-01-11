@@ -64,7 +64,7 @@
         --coverage-html ${basedir}/build/coverage"/>
     </target>
  
- <!-- Edited out - phpmd is time consuming and codesniffer is not compatible with current version of phing
+
     <target name="phpmd"
             description="Generate pmd.xml using PHPMD">
         <phpmd rulesets="codesize,unusedcode,naming,design">
@@ -76,6 +76,7 @@
         </phpmd>
     </target>
     
+<!-- Edited out - codesniffer is not compatible with current version of phing
     <target name="phpcs">
         <phpcodesniffer standard="Zend" allowedFileExtensions="php">
             <fileset dir="${basedir}">
