@@ -12,7 +12,7 @@
 
     <testsuites>
         <testsuite name="Tests">
-            <directory>protected/tests</directory>
+            <directory>protected/tests/unit</directory>
         </testsuite>
     </testsuites>
 
