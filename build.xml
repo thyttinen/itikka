@@ -3,7 +3,7 @@
 <project name="name-of-project" default="build">
     <property name="basedir" value="." />
     <target name="build"
-            depends="prepare,lint,phpunit,phploc,phpcpd,phpdoc,phpcb"/>
+            depends="prepare,lint,phpunit,phploc,phpcpd,phpcb"/>
  
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/build/api"/>
@@ -98,7 +98,7 @@
             <formatter type="pmd" outfile="${basedir}/build/logs/pmd-cpd.xml"/>
         </phpcpd>
     </target>
- 
+<!--
     <target name="phpdoc" description="AutoGenerate php docs">
         <phpdoc title="My API Docs"
                 sourcecode="yes"
@@ -111,7 +111,7 @@
         </phpdoc>
     </target>
  
-
+-->
      
  
     <target name="phpcb"
