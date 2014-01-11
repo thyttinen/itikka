@@ -3,7 +3,7 @@
 <project name="name-of-project" default="build">
     <property name="basedir" value="." />
     <target name="build"
-            depends="prepare,lint,phploc,phpcs,phpcpd,phpdoc,phpunit,phpcb"/>
+            depends="prepare,lint,phpunit,phploc,phpcpd,phpdoc,phpcb"/>
  
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/build/api"/>
