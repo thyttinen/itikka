@@ -19,6 +19,11 @@ class BasicTest extends CTestCase {
         
     }
 
+    // This test fails always
+    public function testFail() {
+        $this->assertTrue(false);
+        
+    }
     
 }
 

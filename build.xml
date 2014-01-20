@@ -61,7 +61,8 @@
          <exec command="phpunit --configuration=${basedir}/protected/tests/phpunit.xml
         --log-junit ${basedir}/build/logs/junit.xml
         --coverage-clover ${basedir}/build/logs/clover.xml
-        --coverage-html ${basedir}/build/coverage"/>
+        --coverage-html ${basedir}/build/coverage
+        ${basedir}/protected/tests/unit"/>
     </target>
  
 <!--
