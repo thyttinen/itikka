@@ -12,6 +12,7 @@ class BasicTest extends CTestCase {
     
     
     // All test functions are formatted testExample
+    // These types of test require a test database to run correctly
     public function testType() {
         $type = new Type;
         $type->name = 'Test-type';
@@ -19,10 +20,10 @@ class BasicTest extends CTestCase {
         
     }
 
-    // This test fails always
-    public function testFail() {
-        $this->assertTrue(false);
-        
+    // Basic unit test that does not use the database
+    public function testItemClass() {
+        $item = new Item;
+        $this->assertTrue(is_a($item, 'Item'));
     }
     
 }
