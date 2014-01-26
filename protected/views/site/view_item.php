@@ -51,6 +51,42 @@ $this->breadcrumbs = array(
                             <input type="text" placeholder="7.11.2013 21:30:00" disabled>
                         </div>
                     </div>
+                    
+                    
+                    <!-- Item Properties -->
+                    <?php $properties = Property::getByItem($model->id); ?>
+                    <?php foreach($properties as $property): ?>
+                    
+                    <div class="control-group">
+                        <label class="control-label"><?php echo $property->name; ?></label>
+                        <div class="controls">
+                            
+                                   
+                            <?php 
+                            echo '<input type="text" value="';
+
+                            if (!is_null($property->value_text)) {
+                                echo $property->value_text;
+
+                            } else if (!is_null($property->value_date)) {
+                                echo date('d.m.Y', strtotime($property->value_date));
+
+                            } else if (!is_null($property->value_int)) {
+                                echo $property->value_int;
+
+                            } else {
+                                echo $property->value_double;
+                            }
+
+                            echo '" disabled>';
+                            ?>
+                            
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    
+                    
+                    
                 </form>
             </div>
 
@@ -69,30 +105,51 @@ $this->breadcrumbs = array(
                 <?php
                 $dependency = new Dependency();
                 $dependency->item_id = $model->id;
+                
+                // The items this one depends on
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $dependency->search(),
+                    'dataProvider' => $dependency->search('item_id'),
                     'itemsCssClass' => 'table table-striped',
                     'cssFile' => false,
                     'summaryText' => '',
                     'columns' => array(
                         array(
-                            'name' => 'Relationship',
-                            'value' => function($data, $row) {
-                        return 'Depends on';
-                    }
+                            'name' => 'Depends on',
+                            'type' => 'raw',
+                            'value' => 'CHtml::link($data->dependence->name,array("viewitem","item_id"=>$data->dependence->id))'
                         ),
                         array(
                             'name' => 'Id',
                             'value' => '$data->dependence->id'
                         ),
-                        array(
-                            'name' => 'Name',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link($data->dependence->name,array("viewitem","item_id"=>$data->dependence->id))'
-                        ),
+                        
                         array(
                             'name' => 'Type name',
                             'value' => '$data->dependence->type->name'
+                        )
+                    ),
+                ));
+                
+                // The items this one is a dependency to
+                $this->widget('zii.widgets.grid.CGridView', array(
+                    'dataProvider' => $dependency->search('depends_on'),
+                    'itemsCssClass' => 'table table-striped',
+                    'cssFile' => false,
+                    'summaryText' => '',
+                    'columns' => array(
+                        array(
+                            'name' => 'Dependency to',
+                            'type' => 'raw',
+                            'value' => 'CHtml::link($data->item->name,array("viewitem","item_id"=>$data->item->id))'
+                        ),
+                        array(
+                            'name' => 'Id',
+                            'value' => '$data->item->id'
+                        ),
+                        
+                        array(
+                            'name' => 'Type name',
+                            'value' => '$data->item->type->name'
                         )
                     ),
                 ));

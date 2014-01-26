@@ -61,12 +61,12 @@ class Dependency extends CActiveRecord {
     
     /*
      * Return data provider to be used by table views.
-     * Restrict fetched data to item_id of this instance
+     * $searched determines whether the data is restricted to 'item_id' or 'depends_on'
      */
-    public function search() {
+    public function search($searched) {
         $criteria = new CDbCriteria;
         
-        $criteria->compare('item_id', $this->item_id, false);
+        $criteria->compare($searched, $this->item_id, false);
 
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
