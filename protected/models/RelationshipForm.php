@@ -40,6 +40,51 @@ class RelationshipForm extends CFormModel {
     }
     
     
+    
+    
+    /* Gets the relationships from the database */
+    public static function getRelationshipsFromItem($item_id) {
+    
+        $relationships = array();
+        $item = Item::model()->findByPk($item_id);
+        
+        // Items this item depends on
+        foreach ($item->item_depends_on as $depends) {
+            $temp = new RelationshipForm();
+            $temp->item_id = $depends->id;
+            $temp->depends_on = true;
+            $temp->dependency_to = false;
+            $relationships[] = $temp;
+        }
+        
+        // Items this item is a dependency to
+        foreach ($item->item_dependence_to as $dependency) {
+             
+            // Check whether the relationship is connected both ways
+            $already_in_list = false;
+            foreach ($relationships as $relationship) {
+                if ($relationship->item_id == $dependency->id) {
+                    $relationship->dependency_to = true;
+                    $already_in_list = true;
+                    break;
+                }
+            }
+             
+            if ($already_in_list == false) {
+                $temp = new RelationshipForm();
+                $temp->item_id = $dependency->id;
+                $temp->depends_on = false;
+                $temp->dependency_to = true;
+                $relationships[] = $temp;
+            }
+        }
+        
+        
+        
+        return $relationships;
+    }
+    
+    
     /* Saves this relationship in the database */
     public function saveRelationship($item) {
         

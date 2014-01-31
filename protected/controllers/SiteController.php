@@ -80,7 +80,7 @@ class SiteController extends Controller {
     
 
     /**
-     * Displays the item adding page with add_item.php and ItemForm / PropertyForm
+     * Displays the item adding page with edit_item.php and ItemForm / PropertyForm
      */
     public function actionAddItem() {
         
@@ -121,7 +121,7 @@ class SiteController extends Controller {
                 }
                 
                 
-                $this->redirect('index.php?r=site/addrelationship');
+                $this->redirect('index.php?r=site/editrelationships');
             }
             
             
@@ -160,7 +160,7 @@ class SiteController extends Controller {
                 // Save if valid 
                 if ($model->validate() && $valid) {
                     
-                    $item = $model->saveItem();
+                    $item = $model->saveItem(null);
                     foreach ($properties as $property) {
                         $property->saveProperty($item);
                     }
@@ -170,16 +170,183 @@ class SiteController extends Controller {
                     }
                     
 
-                    Yii::app()->user->setFlash('add_item', 'Item saved.');
+                    Yii::app()->user->setFlash('edit_item', 'Item saved.');
                     Yii::app()->session['remember_form'] = false;
                     $this->refresh();
                 }
             }
         }
 
-        $this->render('add_item', array('model' => $model, 
+        $this->render('edit_item', array('model' => $model, 
             'properties' => $properties, 
-            'relationships' => $relationships));
+            'relationships' => $relationships,
+            'new_item' => true));
+    }
+   
+    
+    
+    
+    
+    
+    /**
+     * Displays the Type adding page, add_type.php
+     */
+    public function actionAddType() {
+        $type = new TypeForm;
+                
+        $propertytemplates = array();
+        $propertyTemplate;
+             
+        //posting Type or Requesting a new row
+        if (isset($_POST['TypeForm'])) {
+            
+            //adding a row, keep form data as is
+            if (isset($_POST['add-row'])) {
+                $type->attributes=$_POST['TypeForm'];
+                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
+                    $propertyTemplate = new PropertyTemplateForm;
+                    $propertyTemplate->attributes=$propertyTemplateInput;
+                    $propertytemplates[] = $propertyTemplate;
+                }
+                $propertytemplates[] = new PropertyTemplateForm;
+            }
+            //submitting Type
+            else {
+                $type->attributes=$_POST['TypeForm'];
+                $type = $type->saveType();
+                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
+                    $propertyTemplate = new PropertyTemplateForm;
+                    $propertyTemplate->attributes=$propertyTemplateInput;
+                    $propertyTemplate->savePropertyTemplate($type);
+                }
+                Yii::app()->user->setFlash('add_type', 'Type saved.');
+                $this->refresh();
+            }
+   
+        //just entering the view, add 1 propertytemplate
+        }else{
+            $propertytemplates[] = new PropertyTemplateForm;
+        }
+        
+        $this->render('add_type', array('type' => $type, 'propertytemplates' => $propertytemplates));
+    }
+    
+    
+    
+    /**
+     * Displays the item editing page with edit_item.php and ItemForm / PropertyForm
+     */
+    public function actionEditItem() {
+        
+        $model = new ItemForm();
+        $item_id = $_GET['item_id'];
+        $item = Item::model()->findByPk($item_id);
+        $model->name = $item->name;
+        $model->type = $item->type_id;
+        
+        // Get the PropertyTemplates for the properties of the edited item
+        $properties = PropertyForm::getPropertiesFromItem($item_id);
+        
+        // Get the relationships for this item if we're returning from adding relationships or from existing relationships
+        $relationships = array();
+        if (Yii::app()->session['remember_form']) {
+            $relationships = RelationshipForm::getRelationships();
+        } else {
+            $relationships = RelationshipForm::getRelationshipsFromItem($item_id);
+        }
+
+        
+        // Handle the received form, saving item, properties and relationships to the database
+        if (isset($_POST['ItemForm'])) { 
+            $valid=true;
+            
+            
+
+            // Save the received temporary item and properties to form state 
+            // while handling relationships
+            if (isset($_POST['RelationshipsButton'])) {
+                $item = new ItemForm;
+                $item->attributes = $_POST['ItemForm'];
+                Yii::app()->session['editing_item_type'] = $item->type;
+                Yii::app()->session['editing_item_name'] = $item->name;
+                
+                
+                foreach($properties as $i=>$property)
+                {
+                    if(isset($_POST['PropertyForm'][$i])) {
+                        $property->attributes=$_POST['PropertyForm'][$i];
+                        Yii::app()->session['editing_property_' . $property->name] = $property->value;
+                    }
+                }
+                
+                
+                $this->redirect('index.php?r=site/editrelationships&item_id=' . $item_id);
+            }
+            
+            
+            
+            
+            // Save the changes to item, properties and relationships
+            else {
+                $valid=true;
+
+                // Get and validate property values
+                foreach($properties as $i=>$property)
+                {
+                    if(isset($_POST['PropertyForm'][$i])) {
+                        $property->attributes=$_POST['PropertyForm'][$i];
+                    }
+                    $valid=$property->validate() && $valid;
+                }
+                
+                
+                 // Get and validate relationship values
+                $relationships = array();
+                if (Yii::app()->session['remember_form']) {
+                    $relationships = RelationshipForm::getRelationships();
+
+                    foreach ($relationships as $i => $relationship) {
+                        $valid=$relationship->validate() && $valid;
+                    }
+                } else {
+                    $relationships = RelationshipForm::getRelationshipsFromItem($item_id);
+                }
+                
+
+                // Get item values
+                $model->attributes = $_POST['ItemForm'];
+
+                
+                
+                // Save if valid, deleting old values
+                if ($model->validate() && $valid) {
+                    
+                    $item = $model->saveItem($item_id);
+                    
+                   
+                    Property::model()->deleteAllByAttributes(array('item_id' => $item_id));
+                    foreach ($properties as $property) {
+                        $property->saveProperty($item);
+                    }
+                    
+                    Dependency::model()->deleteAllByAttributes(array('item_id' => $item_id));
+                    Dependency::model()->deleteAllByAttributes(array('depends_on' => $item_id));
+                    foreach ($relationships as $relationship) {
+                        $relationship->saveRelationship($item);
+                    }
+                    
+
+                    Yii::app()->user->setFlash('edit_item', 'Item saved.');
+                    Yii::app()->session['remember_form'] = false;
+                    $this->refresh();
+                }
+            }
+        }
+
+        $this->render('edit_item', array('model' => $model, 
+            'properties' => $properties, 
+            'relationships' => $relationships,
+            'new_item' => false));
     }
    
     
@@ -189,9 +356,9 @@ class SiteController extends Controller {
     
     /**
      * Displays the relationship adding page, accessed through Add Item and Edit Item
-     * submitted relationship data is passed on through session variables to addItem to be saved together with the item
+     * submitted relationship data is passed on through session variables to addItem and editItem to be saved together with the item
      */
-    public function actionAddRelationship() {
+    public function actionEditRelationships() {
         
         // Get relationship forms for all items
         $relationships = array();
@@ -199,6 +366,15 @@ class SiteController extends Controller {
         foreach (Item::getAll() as $item) {
             $temp = new RelationshipForm;
             $temp->item_id = $item->id;
+            
+            if (isset($_GET['item_id'])) {
+                $item_id = $_GET['item_id'];
+                
+                $temp->depends_on = !is_null(Dependency::model()->findByPk(array('item_id' => $item_id, 'depends_on' => $item->id)));
+                $temp->dependency_to = !is_null(Dependency::model()->findByPk(array('item_id' => $item->id, 'depends_on' => $item_id)));
+                
+            }
+            
             $relationships[] = $temp;
         }
         
@@ -265,13 +441,17 @@ class SiteController extends Controller {
                 }
                 Yii::app()->session['editing_relationship_count'] = $count;
                 
-                // Set the session variable so we know to use the saved values in add_item when returning to it
+                // Set the session variable so we know to use the saved values in edit_item when returning to it
                 Yii::app()->session['remember_form'] = true;
                 
                 
                 
-                // Return to item adding view
-                $this->redirect('index.php?r=site/additem&type=' . Yii::app()->session['editing_item_type']);
+                // Return to item editing or adding view
+                if (isset($_GET['item_id'])) {
+                    $this->redirect('index.php?r=site/edititem&item_id=' . $_GET['item_id']);
+                } else {
+                    $this->redirect('index.php?r=site/additem&type=' . Yii::app()->session['editing_item_type']);
+                }
             
             }
             
@@ -279,57 +459,15 @@ class SiteController extends Controller {
         }
         
    
-        $this->render('add_relationship', array('relationships' => $relationships));
+        $this->render('edit_relationship', array('relationships' => $relationships));
         
     }
     
     
-    /**
-     * Displays the Type adding page, add_type.php
-     */
-    public function actionAddType() {
-        $type = new TypeForm;
-                
-        $propertytemplates = array();
-        $propertyTemplate;
-             
-        //posting Type or Requesting a new row
-        if (isset($_POST['TypeForm'])) {
-            
-            //adding a row, keep form data as is
-            if (isset($_POST['add-row'])) {
-                $type->attributes=$_POST['TypeForm'];
-                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
-                    $propertyTemplate = new PropertyTemplateForm;
-                    $propertyTemplate->attributes=$propertyTemplateInput;
-                    $propertytemplates[] = $propertyTemplate;
-                }
-                $propertytemplates[] = new PropertyTemplateForm;
-            }
-            //submitting Type
-            else {
-                $type->attributes=$_POST['TypeForm'];
-                $type = $type->saveType();
-                foreach($_POST['PropertyTemplateForm'] as $i=>$propertyTemplateInput) {
-                    $propertyTemplate = new PropertyTemplateForm;
-                    $propertyTemplate->attributes=$propertyTemplateInput;
-                    $propertyTemplate->savePropertyTemplate($type);
-                }
-                Yii::app()->user->setFlash('add_type', 'Type saved.');
-                $this->refresh();
-            }
-   
-        //just entering the view, add 1 propertytemplate
-        }else{
-            $propertytemplates[] = new PropertyTemplateForm;
-        }
-        
-        $this->render('add_type', array('type' => $type, 'propertytemplates' => $propertytemplates));
-    }
     
     
     /**
-     * Displays the item view page with add_item.php
+     * Displays the item view page with view_item.php
      * Fetches Item to display by it's id
      */
     public function actionViewItem() {

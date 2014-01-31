@@ -6,7 +6,7 @@
 $this->pageTitle = Yii::app()->name . ' - Edit Relationships';
 $this->breadcrumbs = array(
     'Items' => array('items'),
-    'Add Relationship',
+    'Edit Relationships',
 );
 
 ?>
@@ -15,7 +15,7 @@ $this->breadcrumbs = array(
     <!-- Adding relationships -->
     <div class="row">
         <div class="span12">
-            <h2>Add relationships to: <?php echo Yii::app()->session['editing_item_name']; ?></h2>
+            <h2>Edit relationships of: <?php echo Yii::app()->session['editing_item_name']; ?></h2>
             <br/>
             <h3>Item <?php echo Yii::app()->session['editing_item_name']; ?>'s relationships: </h3>
         </div>

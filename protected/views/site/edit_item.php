@@ -5,18 +5,28 @@
 /* @var $relationships RelationshipForm */
 /* @var $form CActiveForm  */
 /* @var $remember_form boolean */
+/* @var $new_item boolean */
 
-$this->pageTitle = Yii::app()->name . ' - Add Item';
-$this->breadcrumbs = array(
-    'Items' => array('items'),
-    'Add Item',
-);
+if ($new_item == true) {
+    $this->pageTitle = Yii::app()->name . ' - Add Item';
+    $this->breadcrumbs = array(
+        'Items' => array('items'),
+        'Add Item',
+    );
+} else {
+    $this->pageTitle = Yii::app()->name . ' - Edit Item';
+    $this->breadcrumbs = array(
+        'Items' => array('items'),
+        'Edit Item',
+    );
+}
+
 ?>
 
 <!-- Display a message for the user when the add item function succeeds -->
-<?php if (Yii::app()->user->hasFlash('add_item')): ?>
+<?php if (Yii::app()->user->hasFlash('edit_item')): ?>
     <div class="alert alert-info">
-        <?php echo Yii::app()->user->getFlash('add_item'); ?>
+        <?php echo Yii::app()->user->getFlash('edit_item'); ?>
         <button type="button" class="close" data-dismiss="alert">×</button>
     </div>
 
@@ -63,11 +73,12 @@ $this->breadcrumbs = array(
         ?>
         
         
-        <h2>Add item</h2>
+        <h2><?php echo $new_item ? 'Add item' : 'Edit item'; ?></h2>
+        
         <div class="control-group">
             <?php echo $form->labelEx($model, 'type', array('class' => 'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model, 'type', $model->getAvailableTypes(), array('options' => array($type_id => array('selected'=>'selected'))) ); ?>
+                <?php echo $form->dropDownList($model, 'type', $model->getAvailableTypes(), array('options' => array($type_id => array('selected'=>'selected'), 'disabled' => 'disabled')) ); ?>
                 <?php echo $form->error($model, 'type');  ?>
             </div>
         </div>
@@ -149,7 +160,7 @@ $this->breadcrumbs = array(
         
         <div class="control-group">
             <div class="controls">
-                <?php echo CHtml::submitButton('Add', array('class' => 'btn')); ?>
+                <?php echo CHtml::submitButton($new_item ? 'Add' : 'Save', array('class' => 'btn')); ?>
                 
             </div>
             

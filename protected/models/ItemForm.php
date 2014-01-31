@@ -23,10 +23,7 @@ class ItemForm extends CFormModel {
             $this->type = $_GET['type'];
         }
         
-        // Clicked Add new item; don't use the saved relationship values
-        else {
-            Yii::app()->session['remember_form'] = false;
-        }
+        
     }
     
     
@@ -61,9 +58,21 @@ class ItemForm extends CFormModel {
         return $data;
     }
     
-    /* Saves the item upon submitting the form */
-    public function saveItem() {
-        return Item::add($this->name, $this->type);
+    /* Saves the item upon submitting the form
+     * if $item_id is null, creates a new item
+     */
+    public function saveItem($item_id) {
+        
+        if (is_null($item_id)) {
+            return Item::add($this->name, $this->type);
+        }
+        
+        else {
+            $item = Item::model()->findByPk($item_id);
+            $item->name = $this->name;
+            $item->save();
+            return $item;
+        }
     }
     
     

@@ -22,7 +22,7 @@ $this->breadcrumbs = array(
         <div class="row">
             <div class="span6">
                 <h2><?php echo $model->name ?></h2>	
-                <a href="#" class="btn">Edit</a> 
+                <?php echo CHtml::link('Edit', array('edititem&item_id=' . $model->id), array('class' => 'btn')); ?>
 
                 <form class="form-horizontal">
                     <div class="control-group">

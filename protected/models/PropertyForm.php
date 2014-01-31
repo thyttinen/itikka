@@ -75,7 +75,30 @@ class PropertyForm extends CFormModel {
         return $properties;
     }
     
+     
     
+    /* Creates a list of PropertyForms according to type_id */
+    public static function getPropertiesFromItem($item_id) {
+        
+        $item = Item::model()->findByPk($item_id);
+        
+        $properties = PropertyForm::createPropertiesByType($item->type_id);
+        
+        foreach ($properties as $property) {
+            $item_property = Property::model()->findByPk(array('item_id' => $item_id, 'name' => $property->name));
+            
+            if (!is_null($item_property)) {
+                switch ($property->property_template->value_type) {
+                    case Property::ValueTypeText: $property->value = $item_property->value_text; break;
+                    case Property::ValueTypeDate: $property->value =  date('Y-m-d', strtotime($item_property->value_date)); break;
+                    case Property::ValueTypeInt: $property->value = $item_property->value_int; break;
+                    case Property::ValueTypeDouble: $property->value = $item_property->value_double; break;
+                }
+            }
+        }
+        
+        return $properties;
+    }
     
     
     /* Saves this property in the database */
