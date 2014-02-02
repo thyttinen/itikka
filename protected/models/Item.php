@@ -72,8 +72,12 @@ class Item extends CActiveRecord {
      * Return data provider to be used by the table in Item view (items.php). 
      * No criteria used for filtering yet.
      */
-    public function search() {
+    public function search($type_id) {
         $criteria = new CDbCriteria;
+        
+        if (!is_null($type_id)) {
+            $criteria->addCondition('type_id=' . $type_id);
+        }
         
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
@@ -81,7 +85,7 @@ class Item extends CActiveRecord {
                 'defaultOrder' => 'name ASC',
             ),
             'pagination' => array(
-                'pageSize' => 5
+                'pageSize' => 10
             ),
         ));
     }

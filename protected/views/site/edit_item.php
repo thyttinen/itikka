@@ -78,7 +78,7 @@ if ($new_item == true) {
         <div class="control-group">
             <?php echo $form->labelEx($model, 'type', array('class' => 'control-label')); ?>
             <div class="controls">
-                <?php echo $form->dropDownList($model, 'type', $model->getAvailableTypes(), array('options' => array($type_id => array('selected'=>'selected'), 'disabled' => 'disabled')) ); ?>
+                <?php echo $form->dropDownList($model, 'type', $model->getAvailableTypes(), array('options' => array($type_id => array('selected'=>'selected')), 'disabled' => !$new_item) ); ?>
                 <?php echo $form->error($model, 'type');  ?>
             </div>
         </div>
