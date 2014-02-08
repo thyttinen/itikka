@@ -251,6 +251,7 @@ class SiteController extends Controller {
         $relationships = array();
         if (Yii::app()->session['remember_form']) {
             $relationships = RelationshipForm::getRelationships();
+            Yii::app()->session['remember_form'] = false;
         } else {
             $relationships = RelationshipForm::getRelationshipsFromItem($item_id);
         }
@@ -304,6 +305,7 @@ class SiteController extends Controller {
                 $relationships = array();
                 if (Yii::app()->session['remember_form']) {
                     $relationships = RelationshipForm::getRelationships();
+                    Yii::app()->session['remember_form'] = false;
 
                     foreach ($relationships as $i => $relationship) {
                         $valid=$relationship->validate() && $valid;
