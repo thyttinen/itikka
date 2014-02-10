@@ -87,6 +87,11 @@ class SiteController extends Controller {
         $model = new ItemForm();
         $type_id = $model->type;
         
+        // Don't use the stored form values for a fresh edit
+        if (isset($_GET['blank'])) {
+            Yii::app()->session['remember_form'] = false;
+        }
+        
         // Get the PropertyTemplates for the properties of this type
         $properties = PropertyForm::createPropertiesByType($type_id);
         
@@ -244,6 +249,11 @@ class SiteController extends Controller {
         $model->name = $item->name;
         $model->type = $item->type_id;
         
+        // Don't use the stored form values for a fresh edit
+        if (isset($_GET['blank'])) {
+            Yii::app()->session['remember_form'] = false;
+        }
+        
         // Get the PropertyTemplates for the properties of the edited item
         $properties = PropertyForm::getPropertiesFromItem($item_id);
         
@@ -251,7 +261,6 @@ class SiteController extends Controller {
         $relationships = array();
         if (Yii::app()->session['remember_form']) {
             $relationships = RelationshipForm::getRelationships();
-            Yii::app()->session['remember_form'] = false;
         } else {
             $relationships = RelationshipForm::getRelationshipsFromItem($item_id);
         }
@@ -344,6 +353,8 @@ class SiteController extends Controller {
                 }
             }
         }
+        
+        
 
         $this->render('edit_item', array('model' => $model, 
             'properties' => $properties, 
@@ -477,6 +488,7 @@ class SiteController extends Controller {
         if (isset($_GET['item_id'])) {
             $item = Item::model()->findByPk($_GET['item_id']);
         }
+        
         $this->render('view_item', array('model' => $item));
     }
 

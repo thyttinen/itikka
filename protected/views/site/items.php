@@ -49,7 +49,7 @@ foreach ($types as $type) {
 <div class="row">
     <div class="span6">
         <!-- Buttons: Add, edit, delete -->
-        <?php echo CHtml::link('Add item', array('additem'), array('class' => 'btn')); ?>
+        <?php echo CHtml::link('Add item', array('additem&blank=1'), array('class' => 'btn')); ?>
         <button disabled="disabled" class="btn" type="button">Edit selected</button>
         
             
