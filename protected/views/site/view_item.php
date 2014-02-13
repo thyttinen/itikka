@@ -173,9 +173,9 @@ $this->breadcrumbs = array(
                      <tbody>
                          <?php foreach ($events as $event): ?>
                          <tr>
-                             <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
-                             <td><?=$event->created ? "Created" : "Edited";?></td>
-                             <td><?=$event->description;?></td>
+                             <td><?php echo date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                             <td><?php echo $event->created ? "Created" : "Edited";?></td>
+                             <td><?php echo $event->description;?></td>
                          </tr>
                          <?php endforeach; ?>
                      </tbody>

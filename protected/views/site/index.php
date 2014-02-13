@@ -28,9 +28,9 @@ $this->pageTitle=Yii::app()->name;
             <tbody>
                 <?php foreach ($latestCreated as $event): ?>
                 <tr>
-                    <td><?=CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?></td>
-                    <td><?=$event->item->type->name?></td>
-                    <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                    <td><?php echo CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?></td>
+                    <td><?php echo $event->item->type->name;?></td>
+                    <td><?php echo date("Y-d-m H:i",strtotime($event->modification_date));?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -51,11 +51,11 @@ $this->pageTitle=Yii::app()->name;
                 <?php foreach ($latestEdited as $event): ?>
                 <tr>
                     <td>
-                        <?=CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?>
+                        <?php echo CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?>
                     </td>
-                    <td><?=$event->item->type->name?></td>
-                    <td><?=$event->description?></td>
-                    <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                    <td><?php echo $event->item->type->name?></td>
+                    <td><?php echo $event->description?></td>
+                    <td><?php echo date("Y-d-m H:i",strtotime($event->modification_date));?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
