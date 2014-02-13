@@ -161,7 +161,7 @@ $this->breadcrumbs = array(
     <div class="tab-pane" id="history">
         <div class="row">
             <div class="span6">
-                 <h3>History for item <?=$model->name;?></h3>
+                 <h3>History for item <?php echo $model->name;?></h3>
                  <table class="table">
                      <thead>
                          <tr>
