@@ -58,7 +58,8 @@ class Item extends CActiveRecord {
             'item_depends_on' => array(self::HAS_MANY, 'Item', array('depends_on' => 'id'),
                 'through' => 'item_dependencies_on', 'joinType' => 'INNER JOIN'),
             'item_dependence_to' => array(self::HAS_MANY, 'Item', array('item_id' => 'id'),
-                'through' => 'item_dependencies_to', 'joinType' => 'INNER JOIN')
+                'through' => 'item_dependencies_to', 'joinType' => 'INNER JOIN'),
+            'modification_events' => array(self::HAS_MANY, 'ModificationEvent', 'item_id'),
         );
     }
 

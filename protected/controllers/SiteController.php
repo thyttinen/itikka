@@ -48,6 +48,8 @@ class SiteController extends Controller {
                         Dependency::remove($dependency->item_id, $dependency->depends_on);
                     }
                     
+                    ModificationEvent::removeAllBy($item_id);
+                    
                     Item::remove($item_id);
                     
                     
@@ -166,6 +168,9 @@ class SiteController extends Controller {
                 if ($model->validate() && $valid) {
                     
                     $item = $model->saveItem(null);
+                    
+                    ModificationEvent::add($item["id"], null, true);
+                    
                     foreach ($properties as $property) {
                         $property->saveProperty($item);
                     }
@@ -334,7 +339,8 @@ class SiteController extends Controller {
                     
                     $item = $model->saveItem($item_id);
                     
-                   
+                    ModificationEvent::add($item_id, null, false);
+                    
                     Property::model()->deleteAllByAttributes(array('item_id' => $item_id));
                     foreach ($properties as $property) {
                         $property->saveProperty($item);
@@ -487,9 +493,10 @@ class SiteController extends Controller {
         $item = null;
         if (isset($_GET['item_id'])) {
             $item = Item::model()->findByPk($_GET['item_id']);
+            $events = ModificationEvent::getByItem($_GET['item_id']);
         }
         
-        $this->render('view_item', array('model' => $item));
+        $this->render('view_item', array('model' => $item, 'events' => $events));
     }
 
     /**
@@ -499,7 +506,14 @@ class SiteController extends Controller {
     public function actionIndex() {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+        
+        $latestCreated = ModificationEvent::getLatest(20, true);
+        $latestEdited = ModificationEvent::getLatest(20, false);
+        
+        $this->render('index', array(
+            'latestCreated' => $latestCreated,
+            'latestEdited' => $latestEdited)
+        );
     }
 
     /**

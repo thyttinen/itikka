@@ -159,7 +159,29 @@ $this->breadcrumbs = array(
     </div>
 
     <div class="tab-pane" id="history">
-        <p>Here goes the history.</p>
+        <div class="row">
+            <div class="span6">
+                 <h3>History for item <?=$model->name;?></h3>
+                 <table class="table">
+                     <thead>
+                         <tr>
+                             <th>Time</th>
+                             <th>Action</th>
+                             <th>Comment</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <?php foreach ($events as $event): ?>
+                         <tr>
+                             <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                             <td><?=$event->created ? "Created" : "Edited";?></td>
+                             <td><?=$event->description;?></td>
+                         </tr>
+                         <?php endforeach; ?>
+                     </tbody>
+                 </table>
+             </div>
+        </div>
     </div>
     <div class="tab-pane" id="graphics">
         <p>Here goes the graphics.</p>

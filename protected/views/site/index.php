@@ -8,5 +8,58 @@ $this->pageTitle=Yii::app()->name;
     <h1 class="text-center"><?php echo Yii::app()->name ?></h1>
 </div>
 
+<div class="row">
+    <div class="span12">
+        <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+    </div>
+</div>
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+<div class="row">
+    <div class="span6">
+        <h3>Latest items</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Type</th>
+                    <th>Creation time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($latestCreated as $event): ?>
+                <tr>
+                    <td><?=CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?></td>
+                    <td><?=$event->item->type->name?></td>
+                    <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="span6">
+        <h3>Latest edited</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Type</th>
+                    <th>Comment</th>
+                    <th>Modification time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($latestEdited as $event): ?>
+                <tr>
+                    <td>
+                        <?=CHtml::link($event->item->name,array("viewitem","item_id"=>$event->item->id));?>
+                    </td>
+                    <td><?=$event->item->type->name?></td>
+                    <td><?=$event->description?></td>
+                    <td><?=date("Y-d-m H:i",strtotime($event->modification_date));?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div
+
