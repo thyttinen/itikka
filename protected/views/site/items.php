@@ -50,11 +50,9 @@ foreach ($types as $type) {
     <div class="span6">
         <!-- Buttons: Add, edit, delete -->
         <?php echo CHtml::link('Add item', array('additem&blank=1'), array('class' => 'btn')); ?>
-        <button disabled="disabled" class="btn" type="button">Edit selected</button>
-        
-            
-            <?php echo CHtml::submitButton('Delete selected', array('class' => 'btn', 'name' => 'DeleteButton', 
-            'confirm' => 'Are you sure you want to permanently delete these items?')); ?>
+      
+        <?php echo CHtml::submitButton('Delete selected', array('class' => 'btn', 'name' => 'DeleteButton', 
+        'confirm' => 'Are you sure you want to permanently delete these items?')); ?>
         
     </div>
     

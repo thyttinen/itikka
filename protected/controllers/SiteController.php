@@ -80,6 +80,78 @@ class SiteController extends Controller {
     }
     
     
+    /**
+     * Displays type list page
+     */
+    public function actionTypes() {
+        $model = new Type('search');
+        
+        
+        // Perform operations on the selected items
+        if (isset($_POST['selected'])) {
+                
+            
+            // Delete selected items
+            if (isset($_POST['DeleteButton'])) {
+                
+                foreach ($_POST['selected'] as $type_id) {
+                    
+                    
+                    foreach (Item::getByType($type_id) as $item) {
+                    
+                        foreach (Property::getByItem($item->id) as $property) {
+                            Property::remove($item->id, $property->name);
+                        }
+
+                        foreach (Dependency::getByDependentItem($item->id) as $dependency) {
+                            Dependency::remove($dependency->item_id, $dependency->depends_on);
+                        }
+
+                        foreach (Dependency::getByDependenceItem($item->id) as $dependency) {
+                            Dependency::remove($dependency->item_id, $dependency->depends_on);
+                        }
+
+                        ModificationEvent::removeAllBy($item->id);
+
+                        Item::remove($item->id);
+                    
+                    }
+                    
+                    foreach (PropertyTemplate::getByType($type_id) as $property_template) {
+                        PropertyTemplate::remove($type_id, $property_template->name);
+                    }
+                    
+                    
+                    Type::remove($type_id);
+                    
+                    
+                    
+                }
+                
+                // Send a message to the user
+                Yii::app()->user->setFlash('types', 'Type deleted.');
+                $this->refresh();
+            }
+            
+            
+            
+            
+        }
+        
+        
+        
+        $params = array(
+            'model' => $model,
+        );
+        
+        if (isset($_GET['ajax'])) {
+            $this->renderPartial('types', $params);
+        } else {
+            $this->render('types', $params);
+        }
+    }
+    
+    
 
     /**
      * Displays the item adding page with edit_item.php and ItemForm / PropertyForm

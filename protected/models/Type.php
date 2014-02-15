@@ -60,6 +60,27 @@ class Type extends CActiveRecord {
     
     
     
+    /*
+     * Return data provider to be used by the table in Type view (types.php). 
+     * No criteria used for filtering yet.
+     */
+    public function search() {
+        $criteria = new CDbCriteria;
+        
+        
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 'name ASC',
+            ),
+            'pagination' => array(
+                'pageSize' => 10
+            ),
+        ));
+    }
+    
+    
+    
     public function tableName() {
         return 'itikka.type';
     }

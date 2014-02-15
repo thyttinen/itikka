@@ -1,6 +1,13 @@
 <?php
+
+
 $this->pageTitle = Yii::app()->name . ' - Add Type';
+    $this->breadcrumbs = array(
+        'Types' => array('types'),
+        'Add Type',
+    );
 ?>
+
 
 <!-- Display a message for the user when the add type function succeeds -->
 <?php if (Yii::app()->user->hasFlash('add_type')): ?>

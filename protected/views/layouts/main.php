@@ -33,7 +33,7 @@ Yii::app()->clientScript->registerCoreScript('jquery');
                             'items' => array(
                                 array('label' => 'Home', 'url' => array('/site/index')),
                                 array('label' => 'Items', 'url' => array('/site/items')),
-                                array('label' => 'Types', 'url' => array('/site/addType'))
+                                array('label' => 'Types', 'url' => array('/site/types'))
                             )
                         ));
                         ?>
