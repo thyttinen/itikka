@@ -93,13 +93,7 @@ $this->breadcrumbs = array(
             <!-- Item's relationships -->
             <div class="span6">
                 <h2>Relationships</h2>
-                <div class="row">
-                    <div class="span6">
-                        <form class="navbar-search pull-right">
-                            <input type="text" class="search-query" placeholder="Search">
-                        </form>
-                    </div>
-                </div>  
+                
 
                 <!-- List of current relationships -->
                 <?php

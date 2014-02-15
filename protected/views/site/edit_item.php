@@ -177,9 +177,7 @@ if ($new_item == true) {
         <div class="row">
             <div class="span6">
                 <?php echo CHtml::submitButton('Edit relationships', array('class' => 'btn', 'name' => 'RelationshipsButton')); ?>
-                <form class="navbar-search pull-right">
-                    <input type="text" class="search-query" placeholder="Search">
-                </form>
+                
             </div>
         </div>  
 

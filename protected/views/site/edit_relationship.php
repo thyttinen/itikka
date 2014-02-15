@@ -55,17 +55,7 @@ $this->breadcrumbs = array(
             </select>
     
         </div>
-        <div class="span6">
-            
-            
-            
-            
-            <form class="navbar-search pull-right">
-                <input type="text" class="search-query" placeholder="Search">
-            </form>
-            
-            
-        </div>
+        
          
         
         

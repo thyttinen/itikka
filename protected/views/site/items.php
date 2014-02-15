@@ -57,12 +57,7 @@ foreach ($types as $type) {
             'confirm' => 'Are you sure you want to permanently delete these items?')); ?>
         
     </div>
-    <!-- Searchbar -->
-    <div class="span6">
-        <form class="navbar-search pull-right">
-            <input type="text" class="search-query" placeholder="Search">
-        </form>
-    </div>
+    
     
 <!-- List of items in the CMDB -->
     <div class="span12">
