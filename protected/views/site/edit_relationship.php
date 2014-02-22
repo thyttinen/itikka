@@ -67,7 +67,7 @@ $this->breadcrumbs = array(
           
            <!-- Relationships are separated into divs by item type -->
             <?php foreach ($types as $type): ?>
-            <div id="<?php echo $type->name; ?>" style="display:none;">
+            <div id="<?php echo str_replace(' ', '_', $type->name); ?>" style="display:none;">
             
                 <table class="table table-striped">
 
@@ -133,6 +133,7 @@ $this->breadcrumbs = array(
         
     </div>
     
+    
     <?php $this->endWidget(); ?>
 </div>
 
@@ -145,12 +146,14 @@ $this->breadcrumbs = array(
     
     // Sets the default visible relationship div
     var currentViewedType = "#" + $("#inputType").val();
+    currentViewedType = currentViewedType.replace(/ /g, '_');
     $(currentViewedType).css({"display":"inline"});
     
     //Changes the visibility of the form <div>:s so those selected from the type list are shown
     $("#inputType").change(function(e) {
         $(currentViewedType).css({"display":"none"});
         currentViewedType = "#" + $(this).val();
+        currentViewedType = currentViewedType.replace(/ /g, '_');
         $(currentViewedType).css({"display":"inline"});
     });
     
