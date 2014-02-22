@@ -38,6 +38,8 @@ class PropertyTemplate extends CActiveRecord{
         
         $propertyTemplate->save();
         
+        return $propertyTemplate;
+        
         
     }
     
