@@ -1,6 +1,6 @@
 ITikka - IT configuration managements system
 
-It has features for 
+ITikka has features for 
     - Managing items in an IT-configuration 
       (or virtually any configuration)
     - Managing item relationships
