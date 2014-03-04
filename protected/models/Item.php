@@ -76,7 +76,7 @@ class Item extends CActiveRecord {
     public function search($type_id) {
         $criteria = new CDbCriteria;
         
-        if (!is_null($type_id)) {
+        if (!is_null($type_id) && $type_id >= 0) {
             $criteria->addCondition('type_id=' . $type_id);
         }
         

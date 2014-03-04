@@ -12,7 +12,7 @@ $this->breadcrumbs = array(
 <ul id="tabit" class="nav nav-tabs">
     <li class="active"><a href="#info" data-toggle="tab">Info</a></li>
     <li><a href="#history" data-toggle="tab">History</a></li>
-    <li><a href="#graphics" data-toggle="tab">Graphics</a></li>
+    <!--<li><a href="#graphics" data-toggle="tab">Graphics</a></li>-->
 </ul>
 
 <div class="tab-content">
@@ -39,18 +39,7 @@ $this->breadcrumbs = array(
                             <input type="text" id="inputName" value="<?php echo $model->name ?>" disabled>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Edited by:</label>
-                        <div class="controls">
-                            <input type="text" placeholder="" disabled>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Time:</label>
-                        <div class="controls">
-                            <input type="text" placeholder="7.11.2013 21:30:00" disabled>
-                        </div>
-                    </div>
+                    
                     
                     
                     <!-- Item Properties -->
@@ -161,7 +150,7 @@ $this->breadcrumbs = array(
                          <tr>
                              <th>Time</th>
                              <th>Action</th>
-                             <th>Comment</th>
+                             <!-- <th>Comment</th> -->
                          </tr>
                      </thead>
                      <tbody>
@@ -169,7 +158,7 @@ $this->breadcrumbs = array(
                          <tr>
                              <td><?php echo date("Y-d-m H:i",strtotime($event->modification_date));?></td>
                              <td><?php echo $event->created ? "Created" : "Edited";?></td>
-                             <td><?php echo $event->description;?></td>
+                             <!-- <td><?php echo $event->description;?></td> -->
                          </tr>
                          <?php endforeach; ?>
                      </tbody>

@@ -25,15 +25,18 @@
 <?php 
 // Get a list of types and the current type for type selection
 $types = Type::getAll();
-$type_id = $types[0]->id;
+$type_id = -1;
 if (isset($_GET['type_id'])) {
     $type_id = $_GET['type_id']; 
 } 
 
 $data = array();
+
+$data[-1] = 'All types';
 foreach ($types as $type) {
     $data[$type->id] = $type->name;
 }
+
 ?>
 
 <div class="control-group">

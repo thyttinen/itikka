@@ -45,6 +45,8 @@ $this->breadcrumbs = array(
             <!-- javascript for changing the visibility of items by their type -->
             <select id="inputType">
                 
+                <option>All types</option>
+                
                 <?php
                 $types = Type::getAll();
                 foreach ($types as $type):
@@ -65,9 +67,6 @@ $this->breadcrumbs = array(
         
         <div class="span12">
           
-           <!-- Relationships are separated into divs by item type -->
-            <?php foreach ($types as $type): ?>
-            <div id="<?php echo str_replace(' ', '_', $type->name); ?>" style="display:none;">
             
                 <table class="table table-striped">
 
@@ -84,41 +83,42 @@ $this->breadcrumbs = array(
 
 
                     <tbody>
-
-                        <?php foreach ($relationships as $i => $relationship): 
                         
-                        $relationship_item = Item::model()->findByPk($relationship->item_id);
-                        if ($relationship_item->type_id == $type->id):
-                        ?>
+                        <?php foreach ($types as $type): ?>
+            
 
-                        <tr>
-                            <td>
-                            <?php echo $form->checkBox($relationship, "[$i]depends_on"); ?>
-                            </td>
-                            <td>
-                            <?php echo $form->checkBox($relationship, "[$i]dependency_to"); ?>
-                            </td>
-                            <?php
-                            $item = Item::model()->findByPk($relationship->item_id);
-                            $type_name = $item->type->name;
+                            <?php foreach ($relationships as $i => $relationship): 
+
+                            $relationship_item = Item::model()->findByPk($relationship->item_id);
+                            if ($relationship_item->type_id == $type->id):
                             ?>
-                            <td> <?php echo $item->id; ?> </td>
-                            <td> <?php echo $item->name; ?> </td>
-                            <td> <?php echo $type_name; ?> </td>
-                       </tr>
 
-                       <?php endif; ?>
+                            <tr class="<?php echo str_replace(' ', '_', $type->name); ?>">
+                                <td>
+                                <?php echo $form->checkBox($relationship, "[$i]depends_on"); ?>
+                                </td>
+                                <td>
+                                <?php echo $form->checkBox($relationship, "[$i]dependency_to"); ?>
+                                </td>
+                                <?php
+                                $item = Item::model()->findByPk($relationship->item_id);
+                                $type_name = $item->type->name;
+                                ?>
+                                <td> <?php echo $item->id; ?> </td>
+                                <td> <?php echo $item->name; ?> </td>
+                                <td> <?php echo $type_name; ?> </td>
+                           </tr>
+
+                           <?php endif; ?>
+                           <?php endforeach; ?>
+
                        <?php endforeach; ?>
-
-
 
                     </tbody>
 
 
                 </table>
-            </div>
             
-            <?php endforeach; ?>
             
             <br/>
             <div class="controls">
@@ -145,16 +145,36 @@ $this->breadcrumbs = array(
     $(function() {
     
     // Sets the default visible relationship div
-    var currentViewedType = "#" + $("#inputType").val();
+    var currentViewedType = "." + $("#inputType").val();
     currentViewedType = currentViewedType.replace(/ /g, '_');
-    $(currentViewedType).css({"display":"inline"});
+    $(currentViewedType).css({"display":"table-row"});
     
     //Changes the visibility of the form <div>:s so those selected from the type list are shown
     $("#inputType").change(function(e) {
-        $(currentViewedType).css({"display":"none"});
-        currentViewedType = "#" + $(this).val();
-        currentViewedType = currentViewedType.replace(/ /g, '_');
-        $(currentViewedType).css({"display":"inline"});
+        
+        // Hide all items
+        $("tr").each(function(index, element) {
+           $(this).css({"display":"none"}); 
+        });
+        
+        // Change to listing all types
+        if ($(this).val() === "All types") {
+            $("tr").each(function(index, element) {
+               $(this).css({"display":"table-row"}); 
+            });
+        }
+        
+        // Change to listing items of a single type
+        else {
+            currentViewedType = "." + $(this).val();
+            currentViewedType = currentViewedType.replace(/ /g, '_');
+            $(currentViewedType).each(function(index, element) {
+                        $(this).css({"display":"table-row"});
+            });
+        } 
+            
+            
+         
     });
     
     
